@@ -1,8 +1,10 @@
 package cow.mocjang.parser;
 
 import static cow.mocjang.enums.barns.EnBarn.BARN;
+import static cow.mocjang.enums.pans.EnPen.PEN;
 
 import cow.mocjang.enums.EnMockJang;
+import cow.mocjang.exceptions.IllegalNoteFormatException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +19,11 @@ public class BarnParser {
             String[] cowIds = ids.split(",");
             List<String> idList = new ArrayList<>(Arrays.asList(cowIds));
             for (String id : idList) {
-                mockJangMapHashMap.computeIfAbsent(BARN, k -> new HashMap<>()).put(id, value);
+                Map<String, String> penMap = mockJangMapHashMap.computeIfAbsent(BARN, k -> new HashMap<>());
+                if (penMap.containsKey(id)) {
+                    throw new IllegalNoteFormatException(id);
+                }
+                penMap.put(id, value);
             }
         }
         return mockJangMapHashMap;

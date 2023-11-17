@@ -6,6 +6,7 @@ import static cow.mocjang.enums.pans.EnPen.PEN;
 
 import cow.mocjang.enums.EnMockJang;
 import cow.mocjang.enums.EnNoteForm;
+import cow.mocjang.exceptions.IllegalNoteFormatException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,20 +26,28 @@ public class NoteParser {
             if(matcher.find()){
                 String ids = matcher.group(1);
                 String value = matcher.group(2);
-                if (COW.getCompile().matcher(ids).find()) {
+                boolean isCow = COW.getCompile().matcher(ids).find();
+                boolean isBarn = BARN.getCompile().matcher(ids).find();
+                boolean isPen = PEN.getCompile().matcher(ids).find();
+
+                if (isCow) {
                     Map<EnMockJang, Map<String, String>> cowMap = CowParser.extractCowFormAndNote(ids,value, mockJangMapHashMap);
                     mockJangMapHashMap.putAll(cowMap);
                 }
 
-                if (BARN.getCompile().matcher(ids).find()) {
+                if (isBarn) {
                     Map<EnMockJang, Map<String, String>> barnMap = BarnParser.extractBarnFormAndNote(ids,value,
                             mockJangMapHashMap);
                     mockJangMapHashMap.putAll(barnMap);
                 }
 
-                if (PEN.getCompile().matcher(ids).find()) {
+                if (isPen) {
                     Map<EnMockJang, Map<String, String>> penMap = PenParser.extractPenFormAndNote(ids,value, mockJangMapHashMap);
                     mockJangMapHashMap.putAll(penMap);
+                }
+
+                if(!isCow && !isBarn && !isPen){
+                    throw new IllegalNoteFormatException(ids);
                 }
             }
         }
