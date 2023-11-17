@@ -4,7 +4,7 @@ import cow.mocjang.enums.EnMockJang;
 import java.util.regex.Pattern;
 
 public enum EnCow implements EnMockJang {
-    COW(Pattern.compile("((\\d{4})(,\\d{4})*)"));
+    COW(Pattern.compile("^((\\d{4})(,\\d{4})*)$"));
 
     private final Pattern compile;
 

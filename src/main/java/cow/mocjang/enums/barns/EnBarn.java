@@ -4,7 +4,7 @@ import cow.mocjang.enums.EnMockJang;
 import java.util.regex.Pattern;
 
 public enum EnBarn implements EnMockJang {
-    BARN(Pattern.compile("(\\d+-\\d+)(,\\d+-\\d+)*"));
+    BARN(Pattern.compile("^(\\d+-\\d+)(,\\d+-\\d+)*$"));
 
     private final Pattern compile;
 
