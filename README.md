@@ -2,7 +2,40 @@
 
 ## 구현상황
 - [x] 노트기능 구현
+## 구현기록
+
+<details>
+<summary>(23.11.17)</summary>
+
 - [ ] 테스팅 및 예외 설정
+
+- 추가 아이디어
+  - 잘못된 입력이 존재 할 시, 메시지를 전송해야하지 않을까?
+    - 누락된 값을 알려줘야 착오가 없기 때문이다.
+  - 
+
+</details>
+
+<details>
+<summary>(23.11.18)</summary>
+
+</details>
+
+<details>
+<summary>(23.11.19)</summary>
+
+</details>
+
+<details>
+<summary>(23.11.20)</summary>
+
+</details>
+
+<details>
+<summary>(23.11.21)</summary>
+
+</details>
+
 ## 구현계획
 ### 1. 노트 기능
 - ```[[0000]]``` : 소 번호
