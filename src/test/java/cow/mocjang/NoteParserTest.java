@@ -6,12 +6,14 @@ import static org.assertj.core.api.Assertions.*;
 import cow.mocjang.enums.EnMockJang;
 import cow.mocjang.enums.barns.EnBarn;
 import cow.mocjang.enums.cows.EnCow;
+import cow.mocjang.exceptions.IllegalNoteFormatException;
 import cow.mocjang.parser.BarnParser;
 import cow.mocjang.parser.CowParser;
 import cow.mocjang.parser.NoteParser;
 import cow.mocjang.parser.PenParser;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,17 @@ import java.util.Map;
 @SpringBootTest
 @Slf4j
 class NoteParserTest {
+
+    @DisplayName("잘못된 값을 입력시")
+    @Test
+    void extractNotesByEntityWhenWrong() {
+        //given
+        String testInput = "[[s111,2222]] 밥을 먹다." + System.lineSeparator() + "[[1번축사,2번축사]] 소 판매 예정." + System.lineSeparator() + "[[1-2,2-2,6-6]] 1122가 밥을 안먹음";
+
+        Assertions.assertThatThrownBy(()->NoteParser.extractNotesByEntity(testInput)).isInstanceOf(
+                IllegalNoteFormatException.class);
+
+    }
 
     @DisplayName("각 값을 반환")
     @Test
@@ -76,7 +89,7 @@ class NoteParserTest {
         assertThat(actualPanNote).isEqualTo(expectedPanNote);
     }
 
-    @DisplayName("번호와 값을 반환")
+    @DisplayName("소 번호와 값을 반환")
     @Test
     void extractCowFormAndNote() {
         //given
@@ -94,6 +107,19 @@ class NoteParserTest {
         assertThat(actualNote2).isEqualTo(value);
     }
 
+    @DisplayName("동일한 번호를 입력하면 예외를 발생한다.")
+    @Test
+    void extractCowFormAndNoteDuplicate() {
+        //given
+        String id = "1111,1111";
+        String value = "밥을 먹다.";
+        Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
+
+         Assertions.assertThatThrownBy(()->CowParser.extractCowFormAndNote(id,value,enMockJangMapMap)).isInstanceOf(
+                 IllegalNoteFormatException.class);
+    }
+
+    @DisplayName("축사칸 번호와 값을 반환")
     @Test
     void extractBarnFormAndNote() {
         //given
@@ -109,6 +135,7 @@ class NoteParserTest {
         assertThat(actualNote).isEqualTo(value);
     }
 
+    @DisplayName("축사 번호와 값을 반환")
     @Test
     void extractPenFormAndNote() {
         //given
