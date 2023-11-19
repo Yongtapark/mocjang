@@ -24,13 +24,9 @@
 </details>
 
 <details>
-<summary>(23.11.18)</summary>
-
-</details>
-
-<details>
 <summary>(23.11.19)</summary>
-
+- [x] db 연결
+- [x] 문자열 제대로 db에 들어가는지 검증
 </details>
 
 <details>
