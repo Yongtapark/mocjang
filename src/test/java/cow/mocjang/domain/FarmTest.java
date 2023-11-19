@@ -1,7 +1,7 @@
-package cow.mocjang.entity;
+package cow.mocjang.domain;
 
-import cow.mocjang.entity.cow.Cow;
-import cow.mocjang.entity.farm.*;
+import cow.mocjang.domain.cow.Cow;
+import cow.mocjang.domain.farm.*;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
 
@@ -21,7 +20,6 @@ class FarmTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
     void name() {
         Address address = Address.makeAddress("충주시", "신니면", "원평리");
         Farm farm = Farm.makeFarm("성실목장", address, "010-0000-0000");
@@ -30,9 +28,9 @@ class FarmTest {
         Member member = Member.makeMember(farm, "박용타", "000-0000-0000", address);
         em.persist(member);
 
-        Barn barn = Barn.makeBarn(farm);
+        Barn barn = Barn.makeBarn(farm,"2번축사");
         em.persist(barn);
-        Pen pen = Pen.makePen(barn);
+        Pen pen = Pen.makePen(barn,"1-1");
         em.persist(pen);
         Cow cow = new Cow(pen, "1111", null, null, LocalDate.now());
         em.persist(cow);
