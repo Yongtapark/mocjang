@@ -1,17 +1,18 @@
 package cow.mocjang;
 
-import static cow.mocjang.enums.pans.EnPen.PEN;
+import static cow.mocjang.core.enums.barns.EnBarn.BARN;
+import static cow.mocjang.core.enums.cows.EnCow.COW;
+import static cow.mocjang.core.enums.pens.EnPen.PEN;
 import static org.assertj.core.api.Assertions.*;
 
-import cow.mocjang.enums.EnMockJang;
-import cow.mocjang.enums.barns.EnBarn;
-import cow.mocjang.enums.cows.EnCow;
-import cow.mocjang.exceptions.IllegalNoteFormatException;
-import cow.mocjang.parser.BarnParser;
-import cow.mocjang.parser.CowParser;
-import cow.mocjang.parser.NoteParser;
-import cow.mocjang.parser.PenParser;
+import cow.mocjang.core.enums.EnMockJang;
+import cow.mocjang.core.exceptions.IllegalNoteFormatException;
+import cow.mocjang.core.parser.BarnParser;
+import cow.mocjang.core.parser.CowParser;
+import cow.mocjang.core.parser.NoteParser;
+import cow.mocjang.core.parser.PenParser;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -46,20 +47,25 @@ class NoteParserTest {
 
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.extractNotesByEntity(testInput);
 
-        String actualCowNote1 = enMockJangMapMap.get(EnCow.COW).get("1111");
-        String actualCowNote2 = enMockJangMapMap.get(EnCow.COW).get("2222");
+        Map<String, String> stringStringMap = enMockJangMapMap.get(COW);
+        for (Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
+            System.out.println("stringStringEntry = " + stringStringEntry.getKey());
+            System.out.println("stringStringEntry = " + stringStringEntry.getValue());
+        }
+        String actualCowNote1 = enMockJangMapMap.get(COW).get("1111");
+        String actualCowNote2 = enMockJangMapMap.get(COW).get("2222");
         assertThat(actualCowNote1).isEqualTo(expectedCowNote);
         assertThat(actualCowNote2).isEqualTo(expectedCowNote);
 
-        String actualBarnNote1 = enMockJangMapMap.get(EnBarn.BARN).get("1-2");
+        String actualBarnNote1 = enMockJangMapMap.get(PEN).get("1-2");
         assertThat(actualBarnNote1).isEqualTo(expectedBarnNote);
-        String actualBarnNote2 = enMockJangMapMap.get(EnBarn.BARN).get("2-2");
+        String actualBarnNote2 = enMockJangMapMap.get(PEN).get("2-2");
         assertThat(actualBarnNote2).isEqualTo(expectedBarnNote);
-        String actualBarnNote3 = enMockJangMapMap.get(EnBarn.BARN).get("6-6");
+        String actualBarnNote3 = enMockJangMapMap.get(PEN).get("6-6");
         assertThat(actualBarnNote3).isEqualTo(expectedBarnNote);
 
-        String actualPanNote1 = enMockJangMapMap.get(PEN).get("1번축사");
-        String actualPanNote2 = enMockJangMapMap.get(PEN).get("5번축사");
+        String actualPanNote1 = enMockJangMapMap.get(BARN).get("1번축사");
+        String actualPanNote2 = enMockJangMapMap.get(BARN).get("5번축사");
         assertThat(actualPanNote1).isEqualTo(expectedPanNote);
         assertThat(actualPanNote2).isEqualTo(expectedPanNote);
     }
@@ -76,16 +82,16 @@ class NoteParserTest {
 
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.extractNotesByEntity(testInput);
 
-        String actualCowNote = enMockJangMapMap.get(EnCow.COW).get("1111");
+        String actualCowNote = enMockJangMapMap.get(COW).get("1111");
         assertThat(actualCowNote).isEqualTo(expectedCowNote);
 
-        String actualBarnNote2 = enMockJangMapMap.get(EnBarn.BARN).get("1-3");
+        String actualBarnNote2 = enMockJangMapMap.get(PEN).get("1-3");
         assertThat(actualBarnNote2).isEqualTo(expectedBarnNote2);
-        String actualBarnNote1 = enMockJangMapMap.get(EnBarn.BARN).get("1-2");
+        String actualBarnNote1 = enMockJangMapMap.get(PEN).get("1-2");
         assertThat(actualBarnNote1).isEqualTo(expectedBarnNote1);
 
 
-        String actualPanNote = enMockJangMapMap.get(PEN).get("1번축사");
+        String actualPanNote = enMockJangMapMap.get(BARN).get("1번축사");
         assertThat(actualPanNote).isEqualTo(expectedPanNote);
     }
 
@@ -101,8 +107,8 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enCowMapMap = CowParser.extractCowFormAndNote(id,value,enMockJangMapMap);
 
         //then
-        String actualNote1 = enCowMapMap.get(EnCow.COW).get("1111");
-        String actualNote2 = enCowMapMap.get(EnCow.COW).get("2222");
+        String actualNote1 = enCowMapMap.get(COW).get("1111");
+        String actualNote2 = enCowMapMap.get(COW).get("2222");
         assertThat(actualNote1).isEqualTo(value);
         assertThat(actualNote2).isEqualTo(value);
     }
@@ -128,10 +134,11 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enBarnMap = BarnParser.extractBarnFormAndNote(ids,value,enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enBarnMap = PenParser.extractPenFormAndNote(ids,value,enMockJangMapMap);
+
 
         //then
-        String actualNote = enBarnMap.get(EnBarn.BARN).get("1-1");
+        String actualNote = enBarnMap.get(PEN).get("1-1");
         assertThat(actualNote).isEqualTo(value);
     }
 
@@ -144,12 +151,12 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enBarnMap = PenParser.extractPenFormAndNote(ids,value,enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enBarnMap = BarnParser.extractBarnFormAndNote(ids,value,enMockJangMapMap);
 
         //then
-        String actualNote1 = enBarnMap.get(PEN).get("1번축사");
+        String actualNote1 = enBarnMap.get(BARN).get("1번축사");
         assertThat(actualNote1).isEqualTo(value);
-        String actualNote2 = enBarnMap.get(PEN).get("3번축사");
+        String actualNote2 = enBarnMap.get(BARN).get("3번축사");
         assertThat(actualNote2).isEqualTo(value);
     }
 }
