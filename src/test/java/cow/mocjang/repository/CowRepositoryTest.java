@@ -50,18 +50,22 @@ class CowRepositoryTest {
     @DisplayName("코드네임으로 cow 호출 검증")
     @Test
     void codeNameCall() {
-
+        //when
         Optional<Cow> findCow = cowRepository.findByCodename(codeName);
         Cow cow = findCow.get();
+
+        //then
         assertThat(cow.getCodename()).isEqualTo(codeName);
     }
 
     @DisplayName("데일리 리스트 호출 검증")
     @Test
     void codeNameCallCowAndDailyRecordList() {
-
+        //when
         Optional<Cow> findCow = cowRepository.findByCodename(codeName);
         Cow cow = findCow.get();
+
+        //then
         List<CowDailyRecord> cowDailyRecords = cow.getCowDailyRecords();
         for (CowDailyRecord cowDailyRecord : cowDailyRecords) {
             assertThat(cowDailyRecord.getCow().getCodename()).isEqualTo(codeName);

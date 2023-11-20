@@ -30,7 +30,10 @@ class BarnRepositoryTest {
     @DisplayName("축사명을 이용해 데일리기록리스트 호출 후 검증")
     @Test
     void findByName() {
+        //when
         Barn findBarn = barnRepository.findByName(BARN_NAME).get();
+
+        //then
         List<BarnDailyRecord> barnDailyRecords = findBarn.getBarnDailyRecords();
         for (BarnDailyRecord barnDailyRecord : barnDailyRecords) {
             String dailyRecordBarnName = barnDailyRecord.getBarn().getName();

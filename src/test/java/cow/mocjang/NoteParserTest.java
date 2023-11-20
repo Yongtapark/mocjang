@@ -29,9 +29,11 @@ class NoteParserTest {
     @Test
     void extractNotesByEntityWhenWrong() {
         //given
-        String testInput = "[[s111,2222]] 밥을 먹다." + System.lineSeparator() + "[[1번축사,2번축사]] 소 판매 예정." + System.lineSeparator() + "[[1-2,2-2,6-6]] 1122가 밥을 안먹음";
+        String testInput =
+                "[[s111,2222]] 밥을 먹다." + System.lineSeparator() + "[[1번축사,2번축사]] 소 판매 예정." + System.lineSeparator()
+                        + "[[1-2,2-2,6-6]] 1122가 밥을 안먹음";
 
-        Assertions.assertThatThrownBy(()->NoteParser.extractNotesByEntity(testInput)).isInstanceOf(
+        Assertions.assertThatThrownBy(() -> NoteParser.extractNotesByEntity(testInput)).isInstanceOf(
                 IllegalNoteFormatException.class);
 
     }
@@ -40,18 +42,17 @@ class NoteParserTest {
     @Test
     void extractNotesByEntity() {
         //given
-        String testInput = "[[1111,2222]] 밥을 먹다." + System.lineSeparator() + "[[1번축사,5번축사]] 소 판매 예정." + System.lineSeparator() + "[[1-2,2-2,6-6]] 1122가 밥을 안먹음";
+        String testInput =
+                "[[1111,2222]] 밥을 먹다." + System.lineSeparator() + "[[1번축사,5번축사]] 소 판매 예정." + System.lineSeparator()
+                        + "[[1-2,2-2,6-6]] 1122가 밥을 안먹음";
         String expectedCowNote = "밥을 먹다.";
         String expectedBarnNote = "1122가 밥을 안먹음";
         String expectedPanNote = "소 판매 예정.";
 
+        //when
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.extractNotesByEntity(testInput);
 
-        Map<String, String> stringStringMap = enMockJangMapMap.get(COW);
-        for (Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
-            System.out.println("stringStringEntry = " + stringStringEntry.getKey());
-            System.out.println("stringStringEntry = " + stringStringEntry.getValue());
-        }
+        //then
         String actualCowNote1 = enMockJangMapMap.get(COW).get("1111");
         String actualCowNote2 = enMockJangMapMap.get(COW).get("2222");
         assertThat(actualCowNote1).isEqualTo(expectedCowNote);
@@ -74,14 +75,17 @@ class NoteParserTest {
     @Test
     void extractMultiNotesByEntity() {
         //given
-        String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()  + "[[1-3]] 1132가 밥을 안먹음" + System.lineSeparator() +"[[1-2]] 1122가 밥을 안먹음" ;
+        String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()
+                + "[[1-3]] 1132가 밥을 안먹음" + System.lineSeparator() + "[[1-2]] 1122가 밥을 안먹음";
         String expectedCowNote = "밥을 먹다.";
         String expectedBarnNote1 = "1122가 밥을 안먹음";
         String expectedBarnNote2 = "1132가 밥을 안먹음";
         String expectedPanNote = "소 판매 예정.";
 
+        //when
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.extractNotesByEntity(testInput);
 
+        //then
         String actualCowNote = enMockJangMapMap.get(COW).get("1111");
         assertThat(actualCowNote).isEqualTo(expectedCowNote);
 
@@ -89,7 +93,6 @@ class NoteParserTest {
         assertThat(actualBarnNote2).isEqualTo(expectedBarnNote2);
         String actualBarnNote1 = enMockJangMapMap.get(PEN).get("1-2");
         assertThat(actualBarnNote1).isEqualTo(expectedBarnNote1);
-
 
         String actualPanNote = enMockJangMapMap.get(BARN).get("1번축사");
         assertThat(actualPanNote).isEqualTo(expectedPanNote);
@@ -104,7 +107,7 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enCowMapMap = CowParser.extractCowFormAndNote(id,value,enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enCowMapMap = CowParser.extractCowFormAndNote(id, value, enMockJangMapMap);
 
         //then
         String actualNote1 = enCowMapMap.get(COW).get("1111");
@@ -119,10 +122,13 @@ class NoteParserTest {
         //given
         String id = "1111,1111";
         String value = "밥을 먹다.";
+
+        //when
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
-         Assertions.assertThatThrownBy(()->CowParser.extractCowFormAndNote(id,value,enMockJangMapMap)).isInstanceOf(
-                 IllegalNoteFormatException.class);
+        //then
+        Assertions.assertThatThrownBy(() -> CowParser.extractCowFormAndNote(id, value, enMockJangMapMap)).isInstanceOf(
+                IllegalNoteFormatException.class);
     }
 
     @DisplayName("축사칸 번호와 값을 반환")
@@ -134,8 +140,7 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enBarnMap = PenParser.extractPenFormAndNote(ids,value,enMockJangMapMap);
-
+        Map<EnMockJang, Map<String, String>> enBarnMap = PenParser.extractPenFormAndNote(ids, value, enMockJangMapMap);
 
         //then
         String actualNote = enBarnMap.get(PEN).get("1-1");
@@ -151,7 +156,8 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enBarnMap = BarnParser.extractBarnFormAndNote(ids,value,enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enBarnMap = BarnParser.extractBarnFormAndNote(ids, value,
+                enMockJangMapMap);
 
         //then
         String actualNote1 = enBarnMap.get(BARN).get("1번축사");

@@ -23,7 +23,10 @@ class PenRepositoryTest {
     @DisplayName("축사칸의 이름으로 축사칸 객체를 호출하고, 데일리 기록 리스트를 호출하여 검증한다.")
     @Test
     void findByName() {
+        //when
         Pen pen = penRepository.findByName(PEN_NAME).get();
+
+        //then
         List<PenDailyRecord> penDailyRecords = pen.getPenDailyRecords();
         for (PenDailyRecord penDailyRecord : penDailyRecords) {
             Assertions.assertThat(penDailyRecord.getPen().getName()).isEqualTo(PEN_NAME);
