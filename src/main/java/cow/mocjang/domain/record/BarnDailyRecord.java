@@ -3,6 +3,7 @@ package cow.mocjang.domain.record;
 import cow.mocjang.domain.farm.Barn;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,18 +22,19 @@ public class BarnDailyRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "barn_daily_record_id")
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "barn_id")
     private Barn barn;
     private LocalDateTime date;
     private String note;
 
-    public BarnDailyRecord(Barn barn, String note) {
+    public BarnDailyRecord(Barn barn, String note, LocalDateTime date) {
         this.barn = barn;
         this.note = note;
+        this.date = date;
     }
 
-    public static BarnDailyRecord makeBarnDailyRecord(Barn barn, String note){
-        return new BarnDailyRecord(barn,note);
+    public static BarnDailyRecord makeBarnDailyRecord(Barn barn, String note, LocalDateTime date) {
+        return new BarnDailyRecord(barn, note, date);
     }
 }
