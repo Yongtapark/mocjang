@@ -11,6 +11,7 @@ import cow.mocjang.repository.domain.CowRepository;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,7 @@ class CowRepositoryTest {
     @Autowired
     CowRepository cowRepository;
 
+    @DisplayName("소 저장 테스트")
     @Test
     void save() {
         Address address = new Address();
@@ -36,5 +38,14 @@ class CowRepositoryTest {
         Optional<Cow> byId = cowRepository.findById(save.getId());
         Cow findCow = byId.get();
         assertThat(findCow.getId()).isEqualTo(cow.getId());
+    }
+
+    @DisplayName("코드네임으로 cow 호출 검증")
+    @Test
+    void codeNameCall() {
+        final String codeName = "1111";
+        Optional<Cow> findCow = cowRepository.findByCodename(codeName);
+        Cow cow = findCow.get();
+        assertThat(cow.getCodename()).isEqualTo(codeName);
     }
 }

@@ -16,18 +16,19 @@ public class CowDailyRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cow_daily_record_id")
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cow_id")
     private Cow cow;
     private LocalDateTime date;
     private String note;
 
-    public CowDailyRecord(Cow cow, String note) {
+    public CowDailyRecord(Cow cow, String note, LocalDateTime date) {
         this.cow = cow;
         this.note = note;
+        this.date = date;
     }
 
-    public static CowDailyRecord makeCowDailyRecord(Cow cow,String note){
-        return new CowDailyRecord(cow,note);
+    public static CowDailyRecord makeCowDailyRecord(Cow cow,String note, LocalDateTime date){
+        return new CowDailyRecord(cow,note,date);
     }
 }

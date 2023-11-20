@@ -19,6 +19,7 @@ import cow.mocjang.repository.domain.BarnRepository;
 import cow.mocjang.repository.domain.CowRepository;
 import cow.mocjang.repository.domain.PenRepository;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
@@ -28,12 +29,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class NoteParserService {
-    private final CowDailyRecordRepository cowDailyRecordRepository;
-    private final CowRepository cowRepository;
     private final BarnDailyRecordRepository barnDailyRecordRepository;
-    private final BarnRepository barnRepository;
     private final PenDailyRecordRepository penDailyRecordRepository;
+    private final CowDailyRecordRepository cowDailyRecordRepository;
+    private final BarnRepository barnRepository;
     private final PenRepository penRepository;
+    private final CowRepository cowRepository;
 
     public NoteParserService(CowDailyRecordRepository cowDailyRecordRepository, CowRepository cowRepository,
                              BarnDailyRecordRepository barnDailyRecordRepository, BarnRepository barnRepository,
@@ -46,45 +47,45 @@ public class NoteParserService {
         this.penRepository = penRepository;
     }
 
-    public void save(String content){
+    public void save(String content, LocalDateTime dateTime){
         Map<EnMockJang, Map<String, String>> mockJangMap = NoteParser.extractNotesByEntity(content);
-        makeBarnNote(mockJangMap);
-        makePenNote(mockJangMap);
-        makeCowNote(mockJangMap);
+        makeBarnNote(mockJangMap,dateTime);
+        makePenNote(mockJangMap,dateTime);
+        makeCowNote(mockJangMap,dateTime);
     }
 
-    private void makeCowNote(Map<EnMockJang, Map<String, String>> mockJangMap) {
+    private void makeCowNote(Map<EnMockJang, Map<String, String>> mockJangMap, LocalDateTime dateTime) {
         Map<String, String> cowMap = mockJangMap.get(COW);
         Set<Entry<String, String>> entries = cowMap.entrySet();
         for (Entry<String, String> entry : entries) {
             String key = entry.getKey();
             String value = entry.getValue();
             Cow cow = cowRepository.findByCodename(key).orElseThrow(NoSuchElementException::new);
-            CowDailyRecord cowDailyRecord = CowDailyRecord.makeCowDailyRecord(cow, value);
+            CowDailyRecord cowDailyRecord = CowDailyRecord.makeCowDailyRecord(cow, value,dateTime);
             cowDailyRecordRepository.save(cowDailyRecord);
         }
     }
 
-    private void makePenNote(Map<EnMockJang, Map<String, String>> mockJangMap) {
+    private void makePenNote(Map<EnMockJang, Map<String, String>> mockJangMap, LocalDateTime dateTime) {
         Map<String, String> penMap = mockJangMap.get(PEN);
         Set<Entry<String, String>> entries = penMap.entrySet();
         for (Entry<String, String> entry : entries) {
             String key = entry.getKey();
             String value = entry.getValue();
             Pen pen = penRepository.findByName(key).orElseThrow(NoSuchElementException::new);
-            PenDailyRecord penDailyRecord = PenDailyRecord.makePenDailyRecord(pen, value);
+            PenDailyRecord penDailyRecord = PenDailyRecord.makePenDailyRecord(pen, value,dateTime);
             penDailyRecordRepository.save(penDailyRecord);
         }
     }
 
-    private void makeBarnNote(Map<EnMockJang, Map<String, String>> mockJangMap) {
+    private void makeBarnNote(Map<EnMockJang, Map<String, String>> mockJangMap, LocalDateTime dateTime) {
         Map<String, String> barnMap = mockJangMap.get(BARN);
         Set<Entry<String, String>> entries = barnMap.entrySet();
         for (Entry<String, String> entry : entries) {
             String key = entry.getKey();
             String value = entry.getValue();
             Barn barn = barnRepository.findByName(key).orElseThrow(NoSuchElementException::new);
-            BarnDailyRecord barnDailyRecord = BarnDailyRecord.makeBarnDailyRecord(barn, value);
+            BarnDailyRecord barnDailyRecord = BarnDailyRecord.makeBarnDailyRecord(barn, value, dateTime);
             barnDailyRecordRepository.save(barnDailyRecord);
         }
     }
