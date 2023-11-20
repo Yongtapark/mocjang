@@ -1,7 +1,10 @@
 package cow.mocjang.domain.cow;
 
 import cow.mocjang.domain.farm.Pen;
+import cow.mocjang.domain.record.CowDailyRecord;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,17 +18,19 @@ public class Cow {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cow_id")
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pen_id")
     private Pen pen;
     private String codename;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_cow_id")
     private Cow parrentCow;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gene_id")
     private Gene gene;
     private LocalDate birthDate;
+    @OneToMany(mappedBy = "cow")
+    private List<CowDailyRecord> cowDailyRecords = new ArrayList<>();
 
     public Cow(Pen pen, String codename, Cow parrentCow, Gene gene, LocalDate birthDate) {
         this.pen = pen;
