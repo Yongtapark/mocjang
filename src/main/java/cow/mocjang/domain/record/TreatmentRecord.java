@@ -1,6 +1,6 @@
 package cow.mocjang.domain.record;
 
-import cow.mocjang.domain.cow.Cow;
+import cow.mocjang.domain.cattles.Cattle;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,5 +16,5 @@ public class TreatmentRecord {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "cow_id")
-    private Cow cow;
+    private Cattle cattle;
 }

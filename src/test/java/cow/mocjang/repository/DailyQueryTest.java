@@ -1,14 +1,14 @@
-package cow.mocjang.service;
+package cow.mocjang.repository;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import cow.mocjang.core.enums.cattles.EnCattleType;
+import cow.mocjang.core.search.trie.Trie;
 import cow.mocjang.domain.cattles.Cattle;
 import cow.mocjang.domain.farm.Address;
 import cow.mocjang.domain.farm.Barn;
 import cow.mocjang.domain.farm.Farm;
 import cow.mocjang.domain.farm.Pen;
-import cow.mocjang.domain.record.BarnDailyRecord;
-import cow.mocjang.domain.record.CattleDailyRecord;
-import cow.mocjang.domain.record.PenDailyRecord;
 import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
@@ -19,19 +19,21 @@ import cow.mocjang.repository.domain.PenRepository;
 import cow.mocjang.service.parser.NoteParserService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
-@Slf4j
 @Transactional
-@Rollback(value = false)
-class NoteParserServiceTest {
+@Slf4j
+class DailyQueryTest {
+    @Autowired
+    DailyQuery dailyQuery;
     @Autowired
     private BarnRepository barnRepository;
     @Autowired
@@ -58,23 +60,21 @@ class NoteParserServiceTest {
         Pen pen = Pen.makePen(barn,"1-1");
         penRepository.save(pen);
         Cattle cattle = Cattle.makeCattle(pen, "1111", EnCattleType.COW,null, null);
-        //when
         cowRepository.save(cattle);
-    }
-    @Test
-    void test() {
+
         String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator() + "[[1-1]] 1122가 밥을 안먹음";
         LocalDateTime now = LocalDateTime.now();
         noteParserService.save(testInput,now);
-        BarnDailyRecord barnDailyRecord = barnDailyRecordRepository.findByBarn_Name("1번축사").get(0);
-        PenDailyRecord penDailyRecord = penDailyRecordRepository.findByPen_Name("1-1").get(0);
-        CattleDailyRecord cattleDailyRecord = cattleDailyRecordRepository.findByCattle_Name("1111").get(0);
-        String penNote = penDailyRecord.getNote();
-        String barnNote = barnDailyRecord.getNote();
-        String cattleNote = cattleDailyRecord.getNote();
-        Assertions.assertThat(barnNote).isEqualTo("소 판매 예정.");
-        Assertions.assertThat(penNote).isEqualTo("1122가 밥을 안먹음");
-        Assertions.assertThat(cattleNote).isEqualTo("밥을 먹다.");
+    }
 
+    @Test
+    @DisplayName("축사, 칸, 소의 이름들을 가져온다")
+    void getNames() {
+        Trie names = dailyQuery.getNames();
+        List<String> allWithPrefix = names.findAllWithPrefix("1");
+        Assertions.assertThat(allWithPrefix).contains("1111","1번축사","1-1");
+
+        List<String> penWithPrefix = names.findAllWithPrefix("1번");
+        Assertions.assertThat(penWithPrefix).contains("1번축사");
     }
 }

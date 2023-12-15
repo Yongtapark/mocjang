@@ -1,10 +1,9 @@
-package cow.mocjang.domain.cow;
+package cow.mocjang.domain.cattles;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +14,15 @@ import lombok.NoArgsConstructor;
 public class Gene {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String codename;
+    private String geneticCode;
     @OneToOne
-    private Cow fatherCow;
+    private Cattle fatherCattle;
     @OneToOne
-    private Cow motherCow;
+    private Cattle motherCattle;
+
+    public Gene(String geneticCode, Cattle fatherCattle, Cattle motherCattle) {
+        this.geneticCode = geneticCode;
+        this.fatherCattle = fatherCattle;
+        this.motherCattle = motherCattle;
+    }
 }

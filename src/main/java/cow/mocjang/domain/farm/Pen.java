@@ -1,6 +1,6 @@
 package cow.mocjang.domain.farm;
 
-import cow.mocjang.domain.cow.Cow;
+import cow.mocjang.domain.cattles.Cattle;
 import cow.mocjang.domain.record.PenDailyRecord;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Pen {
     private Barn barn;
     private String name;
     @OneToMany(mappedBy = "pen")
-    private List<Cow> cows;
+    private List<Cattle> cattles;
     @OneToMany(mappedBy = "pen")
     private List<PenDailyRecord> penDailyRecords = new ArrayList<>();
 

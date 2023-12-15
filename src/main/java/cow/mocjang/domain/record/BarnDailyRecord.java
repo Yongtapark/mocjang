@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BarnDailyRecord {
+public class BarnDailyRecord implements DailyRecord{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "barn_daily_record_id")

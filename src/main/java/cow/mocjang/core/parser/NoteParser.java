@@ -1,6 +1,6 @@
 package cow.mocjang.core.parser;
 
-import static cow.mocjang.core.enums.cows.EnCow.COW;
+import static cow.mocjang.core.enums.cattles.EnCattle.COW;
 import static cow.mocjang.core.enums.pens.EnPen.PEN;
 
 import cow.mocjang.core.enums.EnMockJang;

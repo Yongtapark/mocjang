@@ -1,7 +1,7 @@
 package cow.mocjang;
 
 import static cow.mocjang.core.enums.barns.EnBarn.BARN;
-import static cow.mocjang.core.enums.cows.EnCow.COW;
+import static cow.mocjang.core.enums.cattles.EnCattle.COW;
 import static cow.mocjang.core.enums.pens.EnPen.PEN;
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,7 +12,6 @@ import cow.mocjang.core.parser.CowParser;
 import cow.mocjang.core.parser.NoteParser;
 import cow.mocjang.core.parser.PenParser;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,6 @@
-package cow.mocjang.repository.domain;
+package cow.mocjang.repository;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import cow.mocjang.core.enums.cattles.EnCattleType;
 import cow.mocjang.domain.cattles.Cattle;
@@ -6,32 +8,34 @@ import cow.mocjang.domain.farm.Address;
 import cow.mocjang.domain.farm.Barn;
 import cow.mocjang.domain.farm.Farm;
 import cow.mocjang.domain.farm.Pen;
-import cow.mocjang.domain.record.PenDailyRecord;
+import cow.mocjang.domain.record.CattleDailyRecord;
 import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
+import cow.mocjang.repository.domain.BarnRepository;
+import cow.mocjang.repository.domain.CowRepository;
+import cow.mocjang.repository.domain.FarmRepository;
+import cow.mocjang.repository.domain.PenRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 @Slf4j
 @Transactional
-@RequiredArgsConstructor
-class PenRepositoryTest {
-    @Autowired
-    private PenRepository penRepository;
+@SpringBootTest
+class CattleRepositoryTest {
     @Autowired
     private BarnRepository barnRepository;
     @Autowired
     private BarnDailyRecordRepository barnDailyRecordRepository;
     @Autowired
     private FarmRepository farmRepository;
+    @Autowired
+    PenRepository penRepository;
     @Autowired
     CowRepository cowRepository;
 
@@ -50,17 +54,29 @@ class PenRepositoryTest {
         //when
         cowRepository.save(cattle);
     }
-    final static String PEN_NAME = "1-1";
-    @DisplayName("축사칸의 이름으로 축사칸 객체를 호출하고, 데일리 기록 리스트를 호출하여 검증한다.")
+
+    @DisplayName("코드네임으로 cow 호출 검증")
     @Test
-    void findByName() {
+    void codeNameCall() {
         //when
-        Pen pen = penRepository.findByName(PEN_NAME).get();
+        Optional<Cattle> findCow = cowRepository.findByName(codeName);
+        Cattle cattle = findCow.get();
 
         //then
-        List<PenDailyRecord> penDailyRecords = pen.getPenDailyRecords();
-        for (PenDailyRecord penDailyRecord : penDailyRecords) {
-            Assertions.assertThat(penDailyRecord.getPen().getName()).isEqualTo(PEN_NAME);
+        assertThat(cattle.getName()).isEqualTo(codeName);
+    }
+
+    @DisplayName("데일리 리스트 호출 검증")
+    @Test
+    void codeNameCallCowAndDailyRecordList() {
+        //when
+        Optional<Cattle> findCow = cowRepository.findByName(codeName);
+        Cattle cattle = findCow.get();
+
+        //then
+        List<CattleDailyRecord> cattleDailyRecords = cattle.getCattleDailyRecords();
+        for (CattleDailyRecord cattleDailyRecord : cattleDailyRecords) {
+            assertThat(cattleDailyRecord.getCattle().getName()).isEqualTo(codeName);
         }
     }
 }

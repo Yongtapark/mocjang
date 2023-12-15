@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PenDailyRecord {
+public class PenDailyRecord implements DailyRecord{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pen_daily_record_id")

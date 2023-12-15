@@ -1,19 +1,19 @@
 package cow.mocjang.service.parser;
 
 import static cow.mocjang.core.enums.barns.EnBarn.BARN;
-import static cow.mocjang.core.enums.cows.EnCow.COW;
+import static cow.mocjang.core.enums.cattles.EnCattle.COW;
 import static cow.mocjang.core.enums.pens.EnPen.PEN;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.parser.NoteParser;
-import cow.mocjang.domain.cow.Cow;
+import cow.mocjang.domain.cattles.Cattle;
 import cow.mocjang.domain.farm.Barn;
 import cow.mocjang.domain.farm.Pen;
 import cow.mocjang.domain.record.BarnDailyRecord;
-import cow.mocjang.domain.record.CowDailyRecord;
+import cow.mocjang.domain.record.CattleDailyRecord;
 import cow.mocjang.domain.record.PenDailyRecord;
 import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
-import cow.mocjang.repository.dailyrecord.CowDailyRecordRepository;
+import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
 import cow.mocjang.repository.domain.BarnRepository;
 import cow.mocjang.repository.domain.CowRepository;
@@ -31,15 +31,15 @@ import org.springframework.stereotype.Service;
 public class NoteParserService {
     private final BarnDailyRecordRepository barnDailyRecordRepository;
     private final PenDailyRecordRepository penDailyRecordRepository;
-    private final CowDailyRecordRepository cowDailyRecordRepository;
+    private final CattleDailyRecordRepository cattleDailyRecordRepository;
     private final BarnRepository barnRepository;
     private final PenRepository penRepository;
     private final CowRepository cowRepository;
 
-    public NoteParserService(CowDailyRecordRepository cowDailyRecordRepository, CowRepository cowRepository,
+    public NoteParserService(CattleDailyRecordRepository cattleDailyRecordRepository, CowRepository cowRepository,
                              BarnDailyRecordRepository barnDailyRecordRepository, BarnRepository barnRepository,
                              PenDailyRecordRepository penDailyRecordRepository, PenRepository penRepository) {
-        this.cowDailyRecordRepository = cowDailyRecordRepository;
+        this.cattleDailyRecordRepository = cattleDailyRecordRepository;
         this.cowRepository = cowRepository;
         this.barnDailyRecordRepository = barnDailyRecordRepository;
         this.barnRepository = barnRepository;
@@ -60,9 +60,9 @@ public class NoteParserService {
         for (Entry<String, String> entry : entries) {
             String key = entry.getKey();
             String value = entry.getValue();
-            Cow cow = cowRepository.findByCodename(key).orElseThrow(NoSuchElementException::new);
-            CowDailyRecord cowDailyRecord = CowDailyRecord.makeCowDailyRecord(cow, value,dateTime);
-            cowDailyRecordRepository.save(cowDailyRecord);
+            Cattle cattle = cowRepository.findByName(key).orElseThrow(NoSuchElementException::new);
+            CattleDailyRecord cattleDailyRecord = CattleDailyRecord.makeCowDailyRecord(cattle, value,dateTime);
+            cattleDailyRecordRepository.save(cattleDailyRecord);
         }
     }
 

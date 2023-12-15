@@ -1,14 +1,14 @@
-package cow.mocjang.core.enums.cows;
+package cow.mocjang.core.enums.cattles;
 
 import cow.mocjang.core.enums.EnMockJang;
 import java.util.regex.Pattern;
 
-public enum EnCow implements EnMockJang {
+public enum EnCattle implements EnMockJang {
     COW(Pattern.compile("^((\\d{4})(,\\d{4})*)$"));
 
     private final Pattern compile;
 
-    EnCow(Pattern compile) {
+    EnCattle(Pattern compile) {
         this.compile = compile;
     }
 
