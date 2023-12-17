@@ -15,4 +15,9 @@ public enum EnNoteForm implements EnMockJang{
     public Pattern getCompile() {
         return pattern;
     }
+
+    @Override
+    public boolean isSameType(EnMockJang enMockJang) {
+        return false;
+    }
 }

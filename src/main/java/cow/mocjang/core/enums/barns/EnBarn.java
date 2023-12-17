@@ -16,4 +16,9 @@ public enum EnBarn implements EnMockJang {
     public Pattern getCompile() {
         return compile;
     }
+
+    @Override
+    public boolean isSameType(EnMockJang enMockJang) {
+        return compile.equals(enMockJang.getCompile());
+    }
 }

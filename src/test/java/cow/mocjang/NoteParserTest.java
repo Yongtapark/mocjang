@@ -1,16 +1,17 @@
 package cow.mocjang;
 
 import static cow.mocjang.core.enums.barns.EnBarn.BARN;
-import static cow.mocjang.core.enums.cattles.EnCattle.COW;
+import static cow.mocjang.core.enums.cattles.EnCattle.CATTLE;
 import static cow.mocjang.core.enums.pens.EnPen.PEN;
 import static org.assertj.core.api.Assertions.*;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.exceptions.IllegalNoteFormatException;
 import cow.mocjang.core.parser.BarnParser;
-import cow.mocjang.core.parser.CowParser;
+import cow.mocjang.core.parser.CattleParser;
 import cow.mocjang.core.parser.NoteParser;
 import cow.mocjang.core.parser.PenParser;
+import jakarta.transaction.Transactional;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -52,8 +53,8 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.extractNotesByEntity(testInput);
 
         //then
-        String actualCowNote1 = enMockJangMapMap.get(COW).get("1111");
-        String actualCowNote2 = enMockJangMapMap.get(COW).get("2222");
+        String actualCowNote1 = enMockJangMapMap.get(CATTLE).get("1111");
+        String actualCowNote2 = enMockJangMapMap.get(CATTLE).get("2222");
         assertThat(actualCowNote1).isEqualTo(expectedCowNote);
         assertThat(actualCowNote2).isEqualTo(expectedCowNote);
 
@@ -85,7 +86,7 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.extractNotesByEntity(testInput);
 
         //then
-        String actualCowNote = enMockJangMapMap.get(COW).get("1111");
+        String actualCowNote = enMockJangMapMap.get(CATTLE).get("1111");
         assertThat(actualCowNote).isEqualTo(expectedCowNote);
 
         String actualBarnNote2 = enMockJangMapMap.get(PEN).get("1-3");
@@ -106,11 +107,11 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enCowMapMap = CowParser.extractCowFormAndNote(id, value, enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enCowMapMap = CattleParser.extractCowFormAndNote(id, value, enMockJangMapMap);
 
         //then
-        String actualNote1 = enCowMapMap.get(COW).get("1111");
-        String actualNote2 = enCowMapMap.get(COW).get("2222");
+        String actualNote1 = enCowMapMap.get(CATTLE).get("1111");
+        String actualNote2 = enCowMapMap.get(CATTLE).get("2222");
         assertThat(actualNote1).isEqualTo(value);
         assertThat(actualNote2).isEqualTo(value);
     }
@@ -126,7 +127,7 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //then
-        Assertions.assertThatThrownBy(() -> CowParser.extractCowFormAndNote(id, value, enMockJangMapMap)).isInstanceOf(
+        Assertions.assertThatThrownBy(() -> CattleParser.extractCowFormAndNote(id, value, enMockJangMapMap)).isInstanceOf(
                 IllegalNoteFormatException.class);
     }
 

@@ -1,7 +1,7 @@
 package cow.mocjang.service.parser;
 
 import static cow.mocjang.core.enums.barns.EnBarn.BARN;
-import static cow.mocjang.core.enums.cattles.EnCattle.COW;
+import static cow.mocjang.core.enums.cattles.EnCattle.CATTLE;
 import static cow.mocjang.core.enums.pens.EnPen.PEN;
 
 import cow.mocjang.core.enums.EnMockJang;
@@ -55,7 +55,7 @@ public class NoteParserService {
     }
 
     private void makeCowNote(Map<EnMockJang, Map<String, String>> mockJangMap, LocalDateTime dateTime) {
-        Map<String, String> cowMap = mockJangMap.get(COW);
+        Map<String, String> cowMap = mockJangMap.get(CATTLE);
         Set<Entry<String, String>> entries = cowMap.entrySet();
         for (Entry<String, String> entry : entries) {
             String key = entry.getKey();

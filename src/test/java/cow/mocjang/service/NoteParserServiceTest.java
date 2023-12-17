@@ -71,7 +71,7 @@ class NoteParserServiceTest {
         CattleDailyRecord cattleDailyRecord = cattleDailyRecordRepository.findByCattle_Name("1111").get(0);
         String penNote = penDailyRecord.getNote();
         String barnNote = barnDailyRecord.getNote();
-        String cattleNote = cattleDailyRecord.getNote();
+        String cattleNote = cattleDailyRecord.getDailyNote().getNote();
         Assertions.assertThat(barnNote).isEqualTo("소 판매 예정.");
         Assertions.assertThat(penNote).isEqualTo("1122가 밥을 안먹음");
         Assertions.assertThat(cattleNote).isEqualTo("밥을 먹다.");

@@ -4,7 +4,7 @@ import cow.mocjang.core.enums.EnMockJang;
 import java.util.regex.Pattern;
 
 public enum EnCattle implements EnMockJang {
-    COW(Pattern.compile("^((\\d{4})(,\\d{4})*)$"));
+    CATTLE(Pattern.compile("^((\\d{4})(,\\d{4})*)$"));
 
     private final Pattern compile;
 
@@ -15,5 +15,10 @@ public enum EnCattle implements EnMockJang {
     @Override
     public Pattern getCompile() {
         return compile;
+    }
+
+    @Override
+    public boolean isSameType(EnMockJang enMockJang) {
+        return compile.equals(enMockJang.getCompile());
     }
 }

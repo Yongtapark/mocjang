@@ -95,10 +95,10 @@ public class Trie {
     }
 
     // 접두사로 시작하는 모든 단어를 찾는 메서드
-    public List<String> findAllWithPrefix(String prefix) {
+    public List<String> findAllWithPrefix(String searchWords) {
         TrieNode currentNode = root;
-        for (int i = 0; i < prefix.length(); i++) {
-            char ch = prefix.charAt(i);
+        for (int i = 0; i < searchWords.length(); i++) {
+            char ch = searchWords.charAt(i);
             TrieNode node = currentNode.children.get(ch);
             if (node == null) {
                 return new ArrayList<>(); // 접두사가 없다면 빈 리스트 반환
@@ -106,7 +106,7 @@ public class Trie {
             currentNode = node;
         }
         List<String> allWords = new ArrayList<>();
-        findAllWords(currentNode, new StringBuilder(prefix), allWords);
+        findAllWords(currentNode, new StringBuilder(searchWords), allWords);
         return allWords;
     }
 

@@ -1,6 +1,6 @@
 package cow.mocjang.core.parser;
 
-import static cow.mocjang.core.enums.cattles.EnCattle.COW;
+import static cow.mocjang.core.enums.cattles.EnCattle.CATTLE;
 import static cow.mocjang.core.enums.pens.EnPen.PEN;
 
 import cow.mocjang.core.enums.EnMockJang;
@@ -23,12 +23,12 @@ public class NoteParser {
             if(matcher.find()){
                 String ids = matcher.group(1);
                 String value = matcher.group(2);
-                boolean isCow = COW.getCompile().matcher(ids).find();
+                boolean isCow = CATTLE.getCompile().matcher(ids).find();
                 boolean isBarn = EnBarn.BARN.getCompile().matcher(ids).find();
                 boolean isPen = PEN.getCompile().matcher(ids).find();
 
                 if (isCow) {
-                    Map<EnMockJang, Map<String, String>> cowMap = CowParser.extractCowFormAndNote(ids,value, mockJangMap);
+                    Map<EnMockJang, Map<String, String>> cowMap = CattleParser.extractCowFormAndNote(ids,value, mockJangMap);
                     mockJangMap.putAll(cowMap);
                 }
 

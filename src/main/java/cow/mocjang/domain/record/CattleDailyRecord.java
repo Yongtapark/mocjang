@@ -3,13 +3,11 @@ package cow.mocjang.domain.record;
 import cow.mocjang.domain.cattles.Cattle;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CattleDailyRecord implements DailyRecord{
     @Id
@@ -30,5 +28,10 @@ public class CattleDailyRecord implements DailyRecord{
 
     public static CattleDailyRecord makeCowDailyRecord(Cattle cattle, String note, LocalDateTime date){
         return new CattleDailyRecord(cattle,note,date);
+    }
+
+    @Override
+    public DailyRecordDTO getDailyNote() {
+        return new DailyRecordDTO(cattle.getName(), note,date);
     }
 }

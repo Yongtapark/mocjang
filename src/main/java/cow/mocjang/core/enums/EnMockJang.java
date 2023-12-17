@@ -4,4 +4,5 @@ import java.util.regex.Pattern;
 
 public interface EnMockJang {
     public Pattern getCompile();
+    boolean isSameType(EnMockJang enMockJang);
 }

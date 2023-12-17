@@ -6,11 +6,6 @@ import static cow.mocjang.domain.farm.QPen.pen;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import cow.mocjang.core.search.trie.Trie;
-import cow.mocjang.domain.cattles.QCattle;
-import cow.mocjang.domain.farm.QBarn;
-import cow.mocjang.domain.farm.QPen;
-import cow.mocjang.domain.record.CattleDailyRecord;
-import cow.mocjang.domain.record.DailyRecord;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.springframework.stereotype.Repository;

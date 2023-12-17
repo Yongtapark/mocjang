@@ -37,4 +37,9 @@ public class BarnDailyRecord implements DailyRecord{
     public static BarnDailyRecord makeBarnDailyRecord(Barn barn, String note, LocalDateTime date) {
         return new BarnDailyRecord(barn, note, date);
     }
+
+    @Override
+    public DailyRecordDTO getDailyNote() {
+        return new DailyRecordDTO(barn.getName(), note,date);
+    }
 }

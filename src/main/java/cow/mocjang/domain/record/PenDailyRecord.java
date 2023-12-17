@@ -37,4 +37,9 @@ public class PenDailyRecord implements DailyRecord{
     public static PenDailyRecord makePenDailyRecord(Pen pen, String note,LocalDateTime date){
         return new PenDailyRecord(pen,note,date);
     }
+
+    @Override
+    public DailyRecordDTO getDailyNote() {
+        return new DailyRecordDTO(pen.getName(), note,date);
+    }
 }

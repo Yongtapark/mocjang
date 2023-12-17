@@ -76,7 +76,7 @@ class CattleRepositoryTest {
         //then
         List<CattleDailyRecord> cattleDailyRecords = cattle.getCattleDailyRecords();
         for (CattleDailyRecord cattleDailyRecord : cattleDailyRecords) {
-            assertThat(cattleDailyRecord.getCattle().getName()).isEqualTo(codeName);
+            assertThat(cattleDailyRecord.getDailyNote().getName()).isEqualTo(codeName);
         }
     }
 }

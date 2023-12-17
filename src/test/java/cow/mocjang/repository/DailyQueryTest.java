@@ -74,7 +74,13 @@ class DailyQueryTest {
         List<String> allWithPrefix = names.findAllWithPrefix("1");
         Assertions.assertThat(allWithPrefix).contains("1111","1번축사","1-1");
 
-        List<String> penWithPrefix = names.findAllWithPrefix("1번");
-        Assertions.assertThat(penWithPrefix).contains("1번축사");
+        List<String> penWithPrefix = names.findAllWithPrefix("11");
+        Assertions.assertThat(penWithPrefix).contains("1111");
+    }
+
+    @Test
+    @DisplayName("이름으로 검색했을때, 자동으로 축사인지, 칸인지, 소인지 검증")
+    void name() {
+
     }
 }
