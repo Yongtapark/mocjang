@@ -7,7 +7,6 @@ import static cow.mocjang.core.enums.EnMockJang.PEN;
 import static cow.mocjang.core.enums.EnMockJang.values;
 
 import cow.mocjang.core.enums.EnMockJang;
-import cow.mocjang.core.search.AutoSearch;
 import cow.mocjang.core.search.trie.Trie;
 import cow.mocjang.domain.record.BarnDailyRecord;
 import cow.mocjang.domain.record.CattleDailyRecord;
@@ -19,7 +18,10 @@ import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,32 +45,36 @@ public class SearchService {
         return names.findAllWithPrefix(name);
     }
 
-    public List<DailyRecordDTO> findDailyRecords(String name) {
-        List<DailyRecordDTO> dailyRecordDTOS = new ArrayList<>();
-        EnMockJang mockjangType = this.findMockjangType(name);
+    private final Map<EnMockJang, Function<String, List<DailyRecordDTO>>> recordFinderMap = Map.of(
+            BARN, this::barnRecordsToDTOs,
+            PEN, this::penRecordsToDTOs,
+            CATTLE, this::cattleRecordsToDTOs
+    );
 
-        if (mockjangType.isSameType(BARN)) {
-            dailyRecordDTOS = barnRecordsFindByName(name).stream().map(BarnDailyRecord::getDailyNote).toList();
-        }
-        if (mockjangType.isSameType(PEN)) {
-            dailyRecordDTOS = penRecordsFindByName(name).stream().map(PenDailyRecord::getDailyNote).toList();
-        }
-        if (mockjangType.isSameType(CATTLE)) {
-            dailyRecordDTOS = cattleRecordsFindByName(name).stream().map(CattleDailyRecord::getDailyNote).toList();
-        }
-        return dailyRecordDTOS;
+    public List<DailyRecordDTO> findDailyRecords(String name) {
+        EnMockJang mockjangType = this.findMockjangType(name);
+        return recordFinderMap.getOrDefault(mockjangType, inputName -> Collections.emptyList())
+                .apply(name);
     }
 
     public EnMockJang findMockjangType(String name) {
         return Arrays.stream(values())
-                .map(enumType->enumType.compareType(name))
+                .map(enumType->enumType.compareTypeWithPattern(name))
                 .filter(enumType -> enumType!= NONE)
                 .findFirst()
                 .orElse(NONE);
     }
 
-    public List<String> getNames() {
-        return null;
+    public List<DailyRecordDTO> barnRecordsToDTOs(String name){
+        return barnRecordsFindByName(name).stream().map(BarnDailyRecord::getDailyNote).toList();
+    }
+
+    public List<DailyRecordDTO> penRecordsToDTOs(String name){
+        return penRecordsFindByName(name).stream().map(PenDailyRecord::getDailyNote).toList();
+    }
+
+    public List<DailyRecordDTO> cattleRecordsToDTOs(String name){
+        return cattleRecordsFindByName(name).stream().map(CattleDailyRecord::getDailyNote).toList();
     }
 
     public List<BarnDailyRecord> barnRecordsFindByName(String name) {
