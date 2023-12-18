@@ -26,9 +26,9 @@ public class NoteParser {
             if (matcher.find()) {
                 String ids = matcher.group(1);
                 String value = matcher.group(2);
-                boolean isCow = CATTLE.getCompile().matcher(ids).find();
-                boolean isBarn = BARN.getCompile().matcher(ids).find();
-                boolean isPen = PEN.getCompile().matcher(ids).find();
+                boolean isCow = CATTLE.isPatternMatched(ids);
+                boolean isBarn = BARN.isPatternMatched(ids);
+                boolean isPen = PEN.isPatternMatched(ids);
                 Arrays.stream(values())
                         .forEach(enMockJang -> enMockJang.parseAndAddToMap(ids,value,mockJangMap));
                 if (!isCow && !isBarn && !isPen) {
