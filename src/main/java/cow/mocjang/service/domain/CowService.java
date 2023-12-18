@@ -13,10 +13,11 @@ public class CowService {
         this.cowRepository = cowRepository;
     }
 
-    public Optional<Cattle> findById(Long id){
-       return cowRepository.findById(id);
+    public Optional<Cattle> findById(Long id) {
+        return cowRepository.findById(id);
     }
-    public Cattle save(Cattle cattle){
+
+    public Cattle save(Cattle cattle) {
         return cowRepository.save(cattle);
     }
 }

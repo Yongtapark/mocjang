@@ -1,18 +1,24 @@
 package cow.mocjang.domain.farm;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Farm {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "farm_id")
     private Long id;
     private String name;
@@ -30,8 +36,8 @@ public class Farm {
         this.tel = tel;
     }
 
-    public static Farm makeFarm(String name, Address address, String tel){
-        return new Farm(name,address,tel);
+    public static Farm makeFarm(String name, Address address, String tel) {
+        return new Farm(name, address, tel);
     }
 
 }

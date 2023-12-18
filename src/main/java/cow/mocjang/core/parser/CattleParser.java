@@ -1,6 +1,6 @@
 package cow.mocjang.core.parser;
 
-import static cow.mocjang.core.enums.cattles.EnCattle.CATTLE;
+import static cow.mocjang.core.enums.EnMockJang.CATTLE;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.exceptions.IllegalNoteFormatException;
@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 public class CattleParser {
-    public static Map<EnMockJang, Map<String, String>> extractCowFormAndNote(String ids, String value, Map<EnMockJang, Map<String, String>> mockJangMapHashMap) {
+    public static Map<EnMockJang, Map<String, String>> extractCowFormAndNote(String ids, String value,
+                                                                             Map<EnMockJang, Map<String, String>> mockJangMapHashMap) {
         Matcher cowMatcher = CATTLE.getCompile().matcher(ids);
         if (cowMatcher.find()) {
             String[] cowIds = ids.split(",");

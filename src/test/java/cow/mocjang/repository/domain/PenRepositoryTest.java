@@ -42,15 +42,17 @@ class PenRepositoryTest {
         Address address = new Address();
         Farm farm = Farm.makeFarm("성실", address, "010");
         farmRepository.save(farm);
-        Barn barn = Barn.makeBarn(farm,"2번축사");
+        Barn barn = Barn.makeBarn(farm, "2번축사");
         barnRepository.save(barn);
-        Pen pen = Pen.makePen(barn,"1-1");
+        Pen pen = Pen.makePen(barn, "1-1");
         penRepository.save(pen);
-        Cattle cattle = Cattle.makeCattle(pen, codeName, EnCattleType.COW,null, null);
+        Cattle cattle = Cattle.makeCattle(pen, codeName, EnCattleType.COW, null, null);
         //when
         cowRepository.save(cattle);
     }
+
     final static String PEN_NAME = "1-1";
+
     @DisplayName("축사칸의 이름으로 축사칸 객체를 호출하고, 데일리 기록 리스트를 호출하여 검증한다.")
     @Test
     void findByName() {

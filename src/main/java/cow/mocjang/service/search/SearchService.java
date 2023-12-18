@@ -1,9 +1,12 @@
 package cow.mocjang.service.search;
 
+import static cow.mocjang.core.enums.EnMockJang.BARN;
+import static cow.mocjang.core.enums.EnMockJang.CATTLE;
+import static cow.mocjang.core.enums.EnMockJang.NONE;
+import static cow.mocjang.core.enums.EnMockJang.PEN;
+import static cow.mocjang.core.enums.EnMockJang.values;
+
 import cow.mocjang.core.enums.EnMockJang;
-import cow.mocjang.core.enums.barns.EnBarn;
-import cow.mocjang.core.enums.cattles.EnCattle;
-import cow.mocjang.core.enums.pens.EnPen;
 import cow.mocjang.core.search.AutoSearch;
 import cow.mocjang.core.search.trie.Trie;
 import cow.mocjang.domain.record.BarnDailyRecord;
@@ -15,6 +18,7 @@ import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -34,26 +38,34 @@ public class SearchService {
         this.dailyQuery = dailyQuery;
     }
 
-    public List<String> getAutoCompleteSearchList(String name){
+    public List<String> getAutoCompleteSearchList(String name) {
         Trie names = dailyQuery.getNames();
-       return names.findAllWithPrefix(name);
+        return names.findAllWithPrefix(name);
     }
 
     public List<DailyRecordDTO> findDailyRecords(String name) {
         List<DailyRecordDTO> dailyRecordDTOS = new ArrayList<>();
-        EnMockJang mockjangType = AutoSearch.findMockjangType(name);
-        if (mockjangType.isSameType(EnBarn.BARN)) {
+        EnMockJang mockjangType = this.findMockjangType(name);
+
+        if (mockjangType.isSameType(BARN)) {
             dailyRecordDTOS = barnRecordsFindByName(name).stream().map(BarnDailyRecord::getDailyNote).toList();
         }
-        if (mockjangType.isSameType(EnPen.PEN)) {
+        if (mockjangType.isSameType(PEN)) {
             dailyRecordDTOS = penRecordsFindByName(name).stream().map(PenDailyRecord::getDailyNote).toList();
         }
-        if (mockjangType.isSameType(EnCattle.CATTLE)) {
+        if (mockjangType.isSameType(CATTLE)) {
             dailyRecordDTOS = cattleRecordsFindByName(name).stream().map(CattleDailyRecord::getDailyNote).toList();
         }
         return dailyRecordDTOS;
     }
-    //TODO: 필요한가?
+
+    public EnMockJang findMockjangType(String name) {
+        return Arrays.stream(values())
+                .map(enumType->enumType.compareType(name))
+                .filter(enumType -> enumType!= NONE)
+                .findFirst()
+                .orElse(NONE);
+    }
 
     public List<String> getNames() {
         return null;

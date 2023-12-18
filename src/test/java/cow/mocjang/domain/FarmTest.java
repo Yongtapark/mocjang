@@ -1,19 +1,23 @@
 package cow.mocjang.domain;
 
 import cow.mocjang.domain.cattles.Cattle;
-import cow.mocjang.domain.farm.*;
+import cow.mocjang.domain.farm.Address;
+import cow.mocjang.domain.farm.Barn;
+import cow.mocjang.domain.farm.Farm;
+import cow.mocjang.domain.farm.Member;
+import cow.mocjang.domain.farm.Pen;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
-
 @SpringBootTest
 @Slf4j
+@Transactional
 class FarmTest {
     @Autowired
     EntityManager em;
@@ -29,11 +33,11 @@ class FarmTest {
         Member member = Member.makeMember(farm, "박용타", "000-0000-0000", address);
         em.persist(member);
 
-        Barn barn = Barn.makeBarn(farm,"2번축사");
+        Barn barn = Barn.makeBarn(farm, "2번축사");
         em.persist(barn);
-        Pen pen = Pen.makePen(barn,"1-1");
+        Pen pen = Pen.makePen(barn, "1-1");
         em.persist(pen);
-        Cattle cattle = new Cattle(pen, "1111", null, null,LocalDate.now());
+        Cattle cattle = new Cattle(pen, "1111", null, null, LocalDate.now());
         em.persist(cattle);
 
         em.flush();

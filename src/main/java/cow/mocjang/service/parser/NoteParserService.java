@@ -1,8 +1,8 @@
 package cow.mocjang.service.parser;
 
-import static cow.mocjang.core.enums.barns.EnBarn.BARN;
-import static cow.mocjang.core.enums.cattles.EnCattle.CATTLE;
-import static cow.mocjang.core.enums.pens.EnPen.PEN;
+import static cow.mocjang.core.enums.EnMockJang.BARN;
+import static cow.mocjang.core.enums.EnMockJang.CATTLE;
+import static cow.mocjang.core.enums.EnMockJang.PEN;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.parser.NoteParser;
@@ -47,11 +47,11 @@ public class NoteParserService {
         this.penRepository = penRepository;
     }
 
-    public void save(String content, LocalDateTime dateTime){
+    public void save(String content, LocalDateTime dateTime) {
         Map<EnMockJang, Map<String, String>> mockJangMap = NoteParser.extractNotesByEntity(content);
-        makeBarnNote(mockJangMap,dateTime);
-        makePenNote(mockJangMap,dateTime);
-        makeCowNote(mockJangMap,dateTime);
+        makeBarnNote(mockJangMap, dateTime);
+        makePenNote(mockJangMap, dateTime);
+        makeCowNote(mockJangMap, dateTime);
     }
 
     private void makeCowNote(Map<EnMockJang, Map<String, String>> mockJangMap, LocalDateTime dateTime) {
@@ -61,7 +61,7 @@ public class NoteParserService {
             String key = entry.getKey();
             String value = entry.getValue();
             Cattle cattle = cowRepository.findByName(key).orElseThrow(NoSuchElementException::new);
-            CattleDailyRecord cattleDailyRecord = CattleDailyRecord.makeCowDailyRecord(cattle, value,dateTime);
+            CattleDailyRecord cattleDailyRecord = CattleDailyRecord.makeCowDailyRecord(cattle, value, dateTime);
             cattleDailyRecordRepository.save(cattleDailyRecord);
         }
     }
@@ -73,7 +73,7 @@ public class NoteParserService {
             String key = entry.getKey();
             String value = entry.getValue();
             Pen pen = penRepository.findByName(key).orElseThrow(NoSuchElementException::new);
-            PenDailyRecord penDailyRecord = PenDailyRecord.makePenDailyRecord(pen, value,dateTime);
+            PenDailyRecord penDailyRecord = PenDailyRecord.makePenDailyRecord(pen, value, dateTime);
             penDailyRecordRepository.save(penDailyRecord);
         }
     }

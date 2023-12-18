@@ -46,11 +46,11 @@ class CattleRepositoryTest {
         Address address = new Address();
         Farm farm = Farm.makeFarm("성실", address, "010");
         farmRepository.save(farm);
-        Barn barn = Barn.makeBarn(farm,"2번축사");
+        Barn barn = Barn.makeBarn(farm, "2번축사");
         barnRepository.save(barn);
-        Pen pen = Pen.makePen(barn,"1-1");
+        Pen pen = Pen.makePen(barn, "1-1");
         penRepository.save(pen);
-        Cattle cattle = Cattle.makeCattle(pen, codeName, EnCattleType.COW,null, null);
+        Cattle cattle = Cattle.makeCattle(pen, codeName, EnCattleType.COW, null, null);
         //when
         cowRepository.save(cattle);
     }

@@ -18,7 +18,7 @@ public class DailyQuery {
         this.query = new JPAQueryFactory(em);
     }
 
-    public Trie getNames(){
+    public Trie getNames() {
         Trie trie = new Trie();
         List<String> barnNames = getBarnNames();
         List<String> penNames = getPenNames();
@@ -34,13 +34,15 @@ public class DailyQuery {
     //일단은 데일리 기록들만 전부 불러오는것을 목표로
 
     //이름 가져오기
-    public List<String> getBarnNames(){
+    public List<String> getBarnNames() {
         return query.select(barn.name).from(barn).fetch();
     }
-    public List<String> getPenNames(){
+
+    public List<String> getPenNames() {
         return query.select(pen.name).from(pen).fetch();
     }
-    public List<String> getCattleNames(){
+
+    public List<String> getCattleNames() {
         return query.select(cattle.name).from(cattle).fetch();
     }
 }

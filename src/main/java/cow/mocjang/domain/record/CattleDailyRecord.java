@@ -1,15 +1,21 @@
 package cow.mocjang.domain.record;
 
 import cow.mocjang.domain.cattles.Cattle;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CattleDailyRecord implements DailyRecord{
+public class CattleDailyRecord implements DailyRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cattle_daily_record_id")
@@ -26,12 +32,12 @@ public class CattleDailyRecord implements DailyRecord{
         this.date = date;
     }
 
-    public static CattleDailyRecord makeCowDailyRecord(Cattle cattle, String note, LocalDateTime date){
-        return new CattleDailyRecord(cattle,note,date);
+    public static CattleDailyRecord makeCowDailyRecord(Cattle cattle, String note, LocalDateTime date) {
+        return new CattleDailyRecord(cattle, note, date);
     }
 
     @Override
     public DailyRecordDTO getDailyNote() {
-        return new DailyRecordDTO(cattle.getName(), note,date);
+        return new DailyRecordDTO(cattle.getName(), note, date);
     }
 }

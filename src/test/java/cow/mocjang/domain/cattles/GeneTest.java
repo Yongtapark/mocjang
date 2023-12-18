@@ -21,10 +21,10 @@ class GeneTest {
     @DisplayName("유전 정보와 부모 소들의 프로필을 제공한다.")
     @Test
     void showGene() {
-        Cattle originFatherCattle = new Cattle(null,"9999",null,null, LocalDate.now());
-        Cattle originMotherCattle = new Cattle(null,"9998",null,null,LocalDate.now());
+        Cattle originFatherCattle = new Cattle(null, "9999", null, null, LocalDate.now());
+        Cattle originMotherCattle = new Cattle(null, "9998", null, null, LocalDate.now());
         Gene originGene = new Gene("1wd2152", originFatherCattle, originMotherCattle);
-        Cattle originCattle = new Cattle(null,"1112",null,originGene,LocalDate.now());
+        Cattle originCattle = new Cattle(null, "1112", null, originGene, LocalDate.now());
         cowRepository.save(originCattle);
 
         Cattle findCattle = cowRepository.findByName("1112").get();

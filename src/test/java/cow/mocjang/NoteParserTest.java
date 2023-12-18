@@ -1,9 +1,9 @@
 package cow.mocjang;
 
-import static cow.mocjang.core.enums.barns.EnBarn.BARN;
-import static cow.mocjang.core.enums.cattles.EnCattle.CATTLE;
-import static cow.mocjang.core.enums.pens.EnPen.PEN;
-import static org.assertj.core.api.Assertions.*;
+import static cow.mocjang.core.enums.EnMockJang.BARN;
+import static cow.mocjang.core.enums.EnMockJang.CATTLE;
+import static cow.mocjang.core.enums.EnMockJang.PEN;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.exceptions.IllegalNoteFormatException;
@@ -11,15 +11,13 @@ import cow.mocjang.core.parser.BarnParser;
 import cow.mocjang.core.parser.CattleParser;
 import cow.mocjang.core.parser.NoteParser;
 import cow.mocjang.core.parser.PenParser;
-import jakarta.transaction.Transactional;
 import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Map;
 
 @SpringBootTest
 @Slf4j
@@ -107,7 +105,8 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enCowMapMap = CattleParser.extractCowFormAndNote(id, value, enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enCowMapMap = CattleParser.extractCowFormAndNote(id, value,
+                enMockJangMapMap);
 
         //then
         String actualNote1 = enCowMapMap.get(CATTLE).get("1111");
@@ -127,8 +126,9 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //then
-        Assertions.assertThatThrownBy(() -> CattleParser.extractCowFormAndNote(id, value, enMockJangMapMap)).isInstanceOf(
-                IllegalNoteFormatException.class);
+        Assertions.assertThatThrownBy(() -> CattleParser.extractCowFormAndNote(id, value, enMockJangMapMap))
+                .isInstanceOf(
+                        IllegalNoteFormatException.class);
     }
 
     @DisplayName("축사칸 번호와 값을 반환")

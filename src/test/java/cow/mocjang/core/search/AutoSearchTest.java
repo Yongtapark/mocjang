@@ -1,14 +1,11 @@
 package cow.mocjang.core.search;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static cow.mocjang.core.enums.EnMockJang.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import cow.mocjang.core.enums.EnMockJang;
-import cow.mocjang.core.enums.barns.EnBarn;
-import cow.mocjang.core.enums.cattles.EnCattle;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,10 +19,10 @@ class AutoSearchTest {
     void name() {
         EnMockJang mockjangType = AutoSearch.findMockjangType("1111");
 
-        boolean barnType = mockjangType.isSameType(EnBarn.BARN);
+        boolean barnType = mockjangType.isSameType(BARN);
         assertThat(barnType).isFalse();
 
-        boolean cattleType = mockjangType.isSameType(EnCattle.CATTLE);
+        boolean cattleType = mockjangType.isSameType(CATTLE);
         assertThat(cattleType).isTrue();
     }
 

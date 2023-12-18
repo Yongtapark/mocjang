@@ -3,20 +3,30 @@ package cow.mocjang.domain.cattles;
 import cow.mocjang.core.enums.cattles.EnCattleType;
 import cow.mocjang.domain.farm.Pen;
 import cow.mocjang.domain.record.CattleDailyRecord;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cattle {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cattle_id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,7 +55,7 @@ public class Cattle {
         this.cattleType = cattleType;
     }
 
-    public static Cattle makeCattle(Pen pen, String codename, EnCattleType cattleType, Gene gene, LocalDate birthDate){
-        return new Cattle(pen,codename,cattleType,gene,birthDate);
+    public static Cattle makeCattle(Pen pen, String codename, EnCattleType cattleType, Gene gene, LocalDate birthDate) {
+        return new Cattle(pen, codename, cattleType, gene, birthDate);
     }
 }

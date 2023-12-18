@@ -1,11 +1,11 @@
 package cow.mocjang.core.parser;
 
-import static cow.mocjang.core.enums.cattles.EnCattle.CATTLE;
-import static cow.mocjang.core.enums.pens.EnPen.PEN;
+import static cow.mocjang.core.enums.EnMockJang.BARN;
+import static cow.mocjang.core.enums.EnMockJang.CATTLE;
+import static cow.mocjang.core.enums.EnMockJang.PEN;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.enums.EnNoteForm;
-import cow.mocjang.core.enums.barns.EnBarn;
 import cow.mocjang.core.exceptions.IllegalNoteFormatException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,30 +20,32 @@ public class NoteParser {
         String[] lines = content.split(System.lineSeparator());
         for (String line : lines) {
             Matcher matcher = EnNoteForm.NOTE_FORM.getCompile().matcher(line);
-            if(matcher.find()){
+            if (matcher.find()) {
                 String ids = matcher.group(1);
                 String value = matcher.group(2);
                 boolean isCow = CATTLE.getCompile().matcher(ids).find();
-                boolean isBarn = EnBarn.BARN.getCompile().matcher(ids).find();
+                boolean isBarn = BARN.getCompile().matcher(ids).find();
                 boolean isPen = PEN.getCompile().matcher(ids).find();
 
                 if (isCow) {
-                    Map<EnMockJang, Map<String, String>> cowMap = CattleParser.extractCowFormAndNote(ids,value, mockJangMap);
+                    Map<EnMockJang, Map<String, String>> cowMap = CattleParser.extractCowFormAndNote(ids, value,
+                            mockJangMap);
                     mockJangMap.putAll(cowMap);
                 }
 
                 if (isBarn) {
-                    Map<EnMockJang, Map<String, String>> barnMap = BarnParser.extractBarnFormAndNote(ids,value,
+                    Map<EnMockJang, Map<String, String>> barnMap = BarnParser.extractBarnFormAndNote(ids, value,
                             mockJangMap);
                     mockJangMap.putAll(barnMap);
                 }
 
                 if (isPen) {
-                    Map<EnMockJang, Map<String, String>> penMap = PenParser.extractPenFormAndNote(ids,value, mockJangMap);
+                    Map<EnMockJang, Map<String, String>> penMap = PenParser.extractPenFormAndNote(ids, value,
+                            mockJangMap);
                     mockJangMap.putAll(penMap);
                 }
 
-                if(!isCow && !isBarn && !isPen){
+                if (!isCow && !isBarn && !isPen) {
                     throw new IllegalNoteFormatException(ids);
                 }
             }

@@ -7,9 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MocjangApplicationTests {
 
-	@Test
-	@Transactional
-	void contextLoads() {
-	}
+    @Test
+    @Transactional
+    void contextLoads() {
+    }
 
 }

@@ -2,7 +2,7 @@ package cow.mocjang.core.enums;
 
 import java.util.regex.Pattern;
 
-public enum EnNoteForm implements EnMockJang{
+public enum EnNoteForm {
     NOTE_FORM(Pattern.compile("\\[\\[([^\\]]+)\\]\\] (.*)"));
 
     private final Pattern pattern;
@@ -11,13 +11,11 @@ public enum EnNoteForm implements EnMockJang{
         this.pattern = pattern;
     }
 
-    @Override
     public Pattern getCompile() {
         return pattern;
     }
 
-    @Override
-    public boolean isSameType(EnMockJang enMockJang) {
+    public boolean isSameType(EnMockJang enMockJangtmp) {
         return false;
     }
 }

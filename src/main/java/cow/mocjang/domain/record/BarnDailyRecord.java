@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BarnDailyRecord implements DailyRecord{
+public class BarnDailyRecord implements DailyRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "barn_daily_record_id")
@@ -40,6 +40,6 @@ public class BarnDailyRecord implements DailyRecord{
 
     @Override
     public DailyRecordDTO getDailyNote() {
-        return new DailyRecordDTO(barn.getName(), note,date);
+        return new DailyRecordDTO(barn.getName(), note, date);
     }
 }

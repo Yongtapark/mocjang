@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PenDailyRecord implements DailyRecord{
+public class PenDailyRecord implements DailyRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pen_daily_record_id")
@@ -28,18 +28,18 @@ public class PenDailyRecord implements DailyRecord{
     private LocalDateTime date;
     private String note;
 
-    public PenDailyRecord(Pen pen, String note,LocalDateTime date) {
+    public PenDailyRecord(Pen pen, String note, LocalDateTime date) {
         this.pen = pen;
         this.note = note;
         this.date = date;
     }
 
-    public static PenDailyRecord makePenDailyRecord(Pen pen, String note,LocalDateTime date){
-        return new PenDailyRecord(pen,note,date);
+    public static PenDailyRecord makePenDailyRecord(Pen pen, String note, LocalDateTime date) {
+        return new PenDailyRecord(pen, note, date);
     }
 
     @Override
     public DailyRecordDTO getDailyNote() {
-        return new DailyRecordDTO(pen.getName(), note,date);
+        return new DailyRecordDTO(pen.getName(), note, date);
     }
 }

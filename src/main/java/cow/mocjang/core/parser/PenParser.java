@@ -1,6 +1,6 @@
 package cow.mocjang.core.parser;
 
-import static cow.mocjang.core.enums.pens.EnPen.PEN;
+import static cow.mocjang.core.enums.EnMockJang.PEN;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.exceptions.IllegalNoteFormatException;
@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 public class PenParser {
-    public static Map<EnMockJang, Map<String, String>> extractPenFormAndNote(String ids, String value, Map<EnMockJang, Map<String, String>> mockJangMapHashMap) {
+    public static Map<EnMockJang, Map<String, String>> extractPenFormAndNote(String ids, String value,
+                                                                             Map<EnMockJang, Map<String, String>> mockJangMapHashMap) {
         Matcher cowMatcher = PEN.getCompile().matcher(ids);
         if (cowMatcher.find()) {
             String[] cowIds = ids.split(",");

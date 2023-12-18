@@ -1,7 +1,5 @@
 package cow.mocjang.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cow.mocjang.core.enums.cattles.EnCattleType;
 import cow.mocjang.core.search.trie.Trie;
 import cow.mocjang.domain.cattles.Cattle;
@@ -50,21 +48,23 @@ class DailyQueryTest {
     CattleDailyRecordRepository cattleDailyRecordRepository;
     @Autowired
     PenDailyRecordRepository penDailyRecordRepository;
+
     @BeforeEach
     void save() {
         Address address = new Address();
         Farm farm = Farm.makeFarm("성실", address, "010");
         farmRepository.save(farm);
-        Barn barn = Barn.makeBarn(farm,"1번축사");
+        Barn barn = Barn.makeBarn(farm, "1번축사");
         barnRepository.save(barn);
-        Pen pen = Pen.makePen(barn,"1-1");
+        Pen pen = Pen.makePen(barn, "1-1");
         penRepository.save(pen);
-        Cattle cattle = Cattle.makeCattle(pen, "1111", EnCattleType.COW,null, null);
+        Cattle cattle = Cattle.makeCattle(pen, "1111", EnCattleType.COW, null, null);
         cowRepository.save(cattle);
 
-        String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator() + "[[1-1]] 1122가 밥을 안먹음";
+        String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()
+                + "[[1-1]] 1122가 밥을 안먹음";
         LocalDateTime now = LocalDateTime.now();
-        noteParserService.save(testInput,now);
+        noteParserService.save(testInput, now);
     }
 
     @Test
@@ -72,7 +72,7 @@ class DailyQueryTest {
     void getNames() {
         Trie names = dailyQuery.getNames();
         List<String> allWithPrefix = names.findAllWithPrefix("1");
-        Assertions.assertThat(allWithPrefix).contains("1111","1번축사","1-1");
+        Assertions.assertThat(allWithPrefix).contains("1111", "1번축사", "1-1");
 
         List<String> penWithPrefix = names.findAllWithPrefix("11");
         Assertions.assertThat(penWithPrefix).contains("1111");
