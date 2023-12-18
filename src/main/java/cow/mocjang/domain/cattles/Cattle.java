@@ -4,6 +4,7 @@ import cow.mocjang.core.enums.cattles.EnCattleType;
 import cow.mocjang.domain.farm.Pen;
 import cow.mocjang.domain.record.CattleDailyRecord;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,8 +36,7 @@ public class Cattle {
     @Enumerated(EnumType.STRING)
     private EnCattleType cattleType;
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gene_id")
+    @Embedded
     private Gene gene;
     private LocalDate birthDate;
     @OneToMany(mappedBy = "cattle")

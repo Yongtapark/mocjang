@@ -7,10 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.exceptions.IllegalNoteFormatException;
-import cow.mocjang.core.parser.BarnParser;
-import cow.mocjang.core.parser.CattleParser;
 import cow.mocjang.core.parser.NoteParser;
-import cow.mocjang.core.parser.PenParser;
+import jakarta.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Slf4j
+@Transactional
 class NoteParserTest {
 
     @DisplayName("잘못된 값을 입력시")
@@ -105,8 +104,8 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enCowMapMap = CattleParser.extractCowFormAndNote(id, value,
-                enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enCowMapMap = NoteParser.parseAndAddToMap(id, value,
+                enMockJangMapMap, CATTLE);
 
         //then
         String actualNote1 = enCowMapMap.get(CATTLE).get("1111");
@@ -126,7 +125,7 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //then
-        Assertions.assertThatThrownBy(() -> CattleParser.extractCowFormAndNote(id, value, enMockJangMapMap))
+        Assertions.assertThatThrownBy(() -> NoteParser.parseAndAddToMap(id, value, enMockJangMapMap,CATTLE))
                 .isInstanceOf(
                         IllegalNoteFormatException.class);
     }
@@ -140,10 +139,10 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enBarnMap = PenParser.extractPenFormAndNote(ids, value, enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enPenMap = NoteParser.parseAndAddToMap(ids, value, enMockJangMapMap,PEN);
 
         //then
-        String actualNote = enBarnMap.get(PEN).get("1-1");
+        String actualNote = enPenMap.get(PEN).get("1-1");
         assertThat(actualNote).isEqualTo(value);
     }
 
@@ -156,8 +155,8 @@ class NoteParserTest {
         Map<EnMockJang, Map<String, String>> enMockJangMapMap = new HashMap<>();
 
         //when
-        Map<EnMockJang, Map<String, String>> enBarnMap = BarnParser.extractBarnFormAndNote(ids, value,
-                enMockJangMapMap);
+        Map<EnMockJang, Map<String, String>> enBarnMap = NoteParser.parseAndAddToMap(ids, value,
+                enMockJangMapMap,BARN);
 
         //then
         String actualNote1 = enBarnMap.get(BARN).get("1번축사");

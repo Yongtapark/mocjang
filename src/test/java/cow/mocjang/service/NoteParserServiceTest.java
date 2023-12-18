@@ -13,7 +13,7 @@ import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
 import cow.mocjang.repository.domain.BarnRepository;
-import cow.mocjang.repository.domain.CowRepository;
+import cow.mocjang.repository.domain.CattleRepository;
 import cow.mocjang.repository.domain.FarmRepository;
 import cow.mocjang.repository.domain.PenRepository;
 import cow.mocjang.service.parser.NoteParserService;
@@ -40,7 +40,7 @@ class NoteParserServiceTest {
     @Autowired
     PenRepository penRepository;
     @Autowired
-    CowRepository cowRepository;
+    CattleRepository cattleRepository;
     @Autowired
     NoteParserService noteParserService;
     @Autowired
@@ -61,7 +61,7 @@ class NoteParserServiceTest {
         penRepository.save(pen);
         Cattle cattle = Cattle.makeCattle(pen, "1111", EnCattleType.COW, null, null);
         //when
-        cowRepository.save(cattle);
+        cattleRepository.save(cattle);
     }
 
     @Test

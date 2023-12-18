@@ -33,7 +33,7 @@ class PenRepositoryTest {
     @Autowired
     private FarmRepository farmRepository;
     @Autowired
-    CowRepository cowRepository;
+    CattleRepository cattleRepository;
 
     final static String codeName = "1111";
 
@@ -48,7 +48,7 @@ class PenRepositoryTest {
         penRepository.save(pen);
         Cattle cattle = Cattle.makeCattle(pen, codeName, EnCattleType.COW, null, null);
         //when
-        cowRepository.save(cattle);
+        cattleRepository.save(cattle);
     }
 
     final static String PEN_NAME = "1-1";

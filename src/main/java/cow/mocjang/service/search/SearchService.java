@@ -16,7 +16,6 @@ import cow.mocjang.repository.DailyQuery;
 import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +56,7 @@ public class SearchService {
                 .apply(name);
     }
 
-    public EnMockJang findMockjangType(String name) {
+    private EnMockJang findMockjangType(String name) {
         return Arrays.stream(values())
                 .map(enumType->enumType.compareTypeWithPattern(name))
                 .filter(enumType -> enumType!= NONE)
@@ -65,27 +64,27 @@ public class SearchService {
                 .orElse(NONE);
     }
 
-    public List<DailyRecordDTO> barnRecordsToDTOs(String name){
+    private List<DailyRecordDTO> barnRecordsToDTOs(String name){
         return barnRecordsFindByName(name).stream().map(BarnDailyRecord::getDailyNote).toList();
     }
 
-    public List<DailyRecordDTO> penRecordsToDTOs(String name){
+    private List<DailyRecordDTO> penRecordsToDTOs(String name){
         return penRecordsFindByName(name).stream().map(PenDailyRecord::getDailyNote).toList();
     }
 
-    public List<DailyRecordDTO> cattleRecordsToDTOs(String name){
+    private List<DailyRecordDTO> cattleRecordsToDTOs(String name){
         return cattleRecordsFindByName(name).stream().map(CattleDailyRecord::getDailyNote).toList();
     }
 
-    public List<BarnDailyRecord> barnRecordsFindByName(String name) {
+    private List<BarnDailyRecord> barnRecordsFindByName(String name) {
         return barnDailyRecordRepository.findByBarn_Name(name);
     }
 
-    public List<PenDailyRecord> penRecordsFindByName(String name) {
+    private List<PenDailyRecord> penRecordsFindByName(String name) {
         return penDailyRecordRepository.findByPen_Name(name);
     }
 
-    public List<CattleDailyRecord> cattleRecordsFindByName(String name) {
+    private List<CattleDailyRecord> cattleRecordsFindByName(String name) {
         return cattleDailyRecordRepository.findByCattle_Name(name);
     }
 }

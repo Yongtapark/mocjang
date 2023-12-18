@@ -14,8 +14,4 @@ public enum EnNoteForm {
     public Pattern getCompile() {
         return pattern;
     }
-
-    public boolean isSameType(EnMockJang enMockJangtmp) {
-        return false;
-    }
 }

@@ -41,7 +41,8 @@ public class NoteParser {
     }
 
     public static Map<EnMockJang, Map<String, String>> parseAndAddToMap(String ids, String value,
-                                                                 Map<EnMockJang, Map<String, String>> mockJangMapHashMap,EnMockJang enMockJang) {
+                                                                        Map<EnMockJang, Map<String, String>> mockJangMapHashMap,
+                                                                        EnMockJang enMockJang) {
         Matcher matcher = enMockJang.getCompile().matcher(ids);
         if (matcher.find()) {
             String[] idArray = ids.split(",");

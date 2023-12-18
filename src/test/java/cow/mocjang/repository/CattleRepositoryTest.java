@@ -11,7 +11,7 @@ import cow.mocjang.domain.farm.Pen;
 import cow.mocjang.domain.record.CattleDailyRecord;
 import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
 import cow.mocjang.repository.domain.BarnRepository;
-import cow.mocjang.repository.domain.CowRepository;
+import cow.mocjang.repository.domain.CattleRepository;
 import cow.mocjang.repository.domain.FarmRepository;
 import cow.mocjang.repository.domain.PenRepository;
 import jakarta.transaction.Transactional;
@@ -37,7 +37,7 @@ class CattleRepositoryTest {
     @Autowired
     PenRepository penRepository;
     @Autowired
-    CowRepository cowRepository;
+    CattleRepository cattleRepository;
 
     final static String codeName = "1111";
 
@@ -52,14 +52,14 @@ class CattleRepositoryTest {
         penRepository.save(pen);
         Cattle cattle = Cattle.makeCattle(pen, codeName, EnCattleType.COW, null, null);
         //when
-        cowRepository.save(cattle);
+        cattleRepository.save(cattle);
     }
 
     @DisplayName("코드네임으로 cow 호출 검증")
     @Test
     void codeNameCall() {
         //when
-        Optional<Cattle> findCow = cowRepository.findByName(codeName);
+        Optional<Cattle> findCow = cattleRepository.findByName(codeName);
         Cattle cattle = findCow.get();
 
         //then
@@ -70,7 +70,7 @@ class CattleRepositoryTest {
     @Test
     void codeNameCallCowAndDailyRecordList() {
         //when
-        Optional<Cattle> findCow = cowRepository.findByName(codeName);
+        Optional<Cattle> findCow = cattleRepository.findByName(codeName);
         Cattle cattle = findCow.get();
 
         //then

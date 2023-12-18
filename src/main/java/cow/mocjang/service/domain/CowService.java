@@ -1,23 +1,23 @@
 package cow.mocjang.service.domain;
 
 import cow.mocjang.domain.cattles.Cattle;
-import cow.mocjang.repository.domain.CowRepository;
+import cow.mocjang.repository.domain.CattleRepository;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CowService {
-    private final CowRepository cowRepository;
+    private final CattleRepository cattleRepository;
 
-    public CowService(CowRepository cowRepository) {
-        this.cowRepository = cowRepository;
+    public CowService(CattleRepository cattleRepository) {
+        this.cattleRepository = cattleRepository;
     }
 
     public Optional<Cattle> findById(Long id) {
-        return cowRepository.findById(id);
+        return cattleRepository.findById(id);
     }
 
     public Cattle save(Cattle cattle) {
-        return cowRepository.save(cattle);
+        return cattleRepository.save(cattle);
     }
 }

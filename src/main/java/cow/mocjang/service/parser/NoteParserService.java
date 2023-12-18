@@ -16,7 +16,7 @@ import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
 import cow.mocjang.repository.domain.BarnRepository;
-import cow.mocjang.repository.domain.CowRepository;
+import cow.mocjang.repository.domain.CattleRepository;
 import cow.mocjang.repository.domain.PenRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -34,13 +34,13 @@ public class NoteParserService {
     private final CattleDailyRecordRepository cattleDailyRecordRepository;
     private final BarnRepository barnRepository;
     private final PenRepository penRepository;
-    private final CowRepository cowRepository;
+    private final CattleRepository cattleRepository;
 
-    public NoteParserService(CattleDailyRecordRepository cattleDailyRecordRepository, CowRepository cowRepository,
+    public NoteParserService(CattleDailyRecordRepository cattleDailyRecordRepository, CattleRepository cattleRepository,
                              BarnDailyRecordRepository barnDailyRecordRepository, BarnRepository barnRepository,
                              PenDailyRecordRepository penDailyRecordRepository, PenRepository penRepository) {
         this.cattleDailyRecordRepository = cattleDailyRecordRepository;
-        this.cowRepository = cowRepository;
+        this.cattleRepository = cattleRepository;
         this.barnDailyRecordRepository = barnDailyRecordRepository;
         this.barnRepository = barnRepository;
         this.penDailyRecordRepository = penDailyRecordRepository;
@@ -60,7 +60,7 @@ public class NoteParserService {
         for (Entry<String, String> entry : entries) {
             String key = entry.getKey();
             String value = entry.getValue();
-            Cattle cattle = cowRepository.findByName(key).orElseThrow(NoSuchElementException::new);
+            Cattle cattle = cattleRepository.findByName(key).orElseThrow(NoSuchElementException::new);
             CattleDailyRecord cattleDailyRecord = CattleDailyRecord.makeCowDailyRecord(cattle, value, dateTime);
             cattleDailyRecordRepository.save(cattleDailyRecord);
         }

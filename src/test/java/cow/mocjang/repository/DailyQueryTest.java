@@ -11,7 +11,7 @@ import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
 import cow.mocjang.repository.domain.BarnRepository;
-import cow.mocjang.repository.domain.CowRepository;
+import cow.mocjang.repository.domain.CattleRepository;
 import cow.mocjang.repository.domain.FarmRepository;
 import cow.mocjang.repository.domain.PenRepository;
 import cow.mocjang.service.parser.NoteParserService;
@@ -39,7 +39,7 @@ class DailyQueryTest {
     @Autowired
     PenRepository penRepository;
     @Autowired
-    CowRepository cowRepository;
+    CattleRepository cattleRepository;
     @Autowired
     NoteParserService noteParserService;
     @Autowired
@@ -59,7 +59,7 @@ class DailyQueryTest {
         Pen pen = Pen.makePen(barn, "1-1");
         penRepository.save(pen);
         Cattle cattle = Cattle.makeCattle(pen, "1111", EnCattleType.COW, null, null);
-        cowRepository.save(cattle);
+        cattleRepository.save(cattle);
 
         String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()
                 + "[[1-1]] 1122가 밥을 안먹음";
