@@ -1,5 +1,7 @@
 package cow.mocjang.service.search;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import cow.mocjang.core.enums.cattles.EnCattleType;
 import cow.mocjang.domain.cattles.Cattle;
 import cow.mocjang.domain.farm.Address;
