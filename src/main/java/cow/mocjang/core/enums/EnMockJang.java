@@ -22,7 +22,7 @@ public enum EnMockJang {
         return this == enMockJang;
     }
 
-    public EnMockJang compareType(String name) {
+    public EnMockJang compareTypeWithPattern(String name) {
         if (this.getCompile().matcher(name).find()) {
             return this;
         }
