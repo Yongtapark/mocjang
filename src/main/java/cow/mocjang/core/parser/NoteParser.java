@@ -29,13 +29,30 @@ public class NoteParser {
                 boolean isCow = CATTLE.isPatternMatched(ids);
                 boolean isBarn = BARN.isPatternMatched(ids);
                 boolean isPen = PEN.isPatternMatched(ids);
-                Arrays.stream(values())
-                        .forEach(enMockJang -> enMockJang.parseAndAddToMap(ids,value,mockJangMap));
+                for (EnMockJang enMockJang : values()) {
+                    parseAndAddToMap(ids,value,mockJangMap,enMockJang);
+                }
                 if (!isCow && !isBarn && !isPen) {
                     throw new IllegalNoteFormatException(ids);
                 }
             }
         }
         return mockJangMap;
+    }
+
+    public static Map<EnMockJang, Map<String, String>> parseAndAddToMap(String ids, String value,
+                                                                 Map<EnMockJang, Map<String, String>> mockJangMapHashMap,EnMockJang enMockJang) {
+        Matcher matcher = enMockJang.getCompile().matcher(ids);
+        if (matcher.find()) {
+            String[] idArray = ids.split(",");
+            Map<String, String> currentMap = mockJangMapHashMap.computeIfAbsent(enMockJang, k -> new HashMap<>());
+            for (String id : idArray) {
+                if (currentMap.containsKey(id)) {
+                    throw new IllegalNoteFormatException(id);
+                }
+                currentMap.put(id, value);
+            }
+        }
+        return mockJangMapHashMap;
     }
 }
