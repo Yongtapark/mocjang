@@ -2,15 +2,12 @@ package cow.mocjang.core.parser;
 
 import static cow.mocjang.core.enums.EnMockJang.BARN;
 import static cow.mocjang.core.enums.EnMockJang.CATTLE;
-import static cow.mocjang.core.enums.EnMockJang.NONE;
 import static cow.mocjang.core.enums.EnMockJang.PEN;
 import static cow.mocjang.core.enums.EnMockJang.values;
-import static cow.mocjang.core.enums.EnNoteForm.*;
+import static cow.mocjang.core.enums.EnNoteForm.NOTE_FORM;
 
 import cow.mocjang.core.enums.EnMockJang;
-import cow.mocjang.core.enums.EnNoteForm;
 import cow.mocjang.core.exceptions.IllegalNoteFormatException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;

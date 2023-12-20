@@ -20,7 +20,6 @@ import cow.mocjang.repository.domain.PenRepository;
 import cow.mocjang.service.parser.NoteParserService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
