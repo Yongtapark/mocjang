@@ -5,6 +5,7 @@ import static cow.mocjang.core.enums.EnMockJang.CATTLE;
 import static cow.mocjang.core.enums.EnMockJang.NONE;
 import static cow.mocjang.core.enums.EnMockJang.PEN;
 import static cow.mocjang.core.enums.EnMockJang.values;
+import static cow.mocjang.core.enums.EnNoteForm.*;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.enums.EnNoteForm;
@@ -22,17 +23,17 @@ public class NoteParser {
         Map<EnMockJang, Map<String, String>> mockJangMap = new HashMap<>();
         String[] lines = content.split(System.lineSeparator());
         for (String line : lines) {
-            Matcher matcher = EnNoteForm.NOTE_FORM.getCompile().matcher(line);
+            Matcher matcher = NOTE_FORM.createPatternMatcher(line);
             if (matcher.find()) {
-                String ids = matcher.group(1);
-                String value = matcher.group(2);
-                boolean isCow = CATTLE.isPatternMatched(ids);
+                String ids = NOTE_FORM.getIds(matcher);
+                String value = NOTE_FORM.getValue(matcher);
+                boolean isCattle = CATTLE.isPatternMatched(ids);
                 boolean isBarn = BARN.isPatternMatched(ids);
                 boolean isPen = PEN.isPatternMatched(ids);
                 for (EnMockJang enMockJang : values()) {
                     parseAndAddToMap(ids,value,mockJangMap,enMockJang);
                 }
-                if (!isCow && !isBarn && !isPen) {
+                if (!isCattle && !isBarn && !isPen) {
                     throw new IllegalNoteFormatException(ids);
                 }
             }
