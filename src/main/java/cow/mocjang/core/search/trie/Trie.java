@@ -8,7 +8,6 @@ public class Trie {
 
     public Trie() {
         root = new TrieNode();
-        System.out.println("the trie has been created");
     }
 
     public void insert(String word) {
@@ -52,26 +51,21 @@ public class Trie {
         TrieNode currentNode = parentNode.children.get(ch);
         boolean canThisNodeBeDeleted;
 
-        //현재 문자 외에도 사용하는 문자가 존재할 경우
         if (currentNode.children.size() > 1) {
             delete(currentNode, word, index + 1);
             return false;
         }
 
-        //끝까지 순회하였을 때
         if (index == word.length() - 1) {
-            //마지막 문자열의 자식이 본인문자뿐만이 아닐 때
             if (currentNode.children.size() >= 1) {
                 currentNode.endOfString = false;
                 return false;
             } else {
-                //본인 뿐이라면 삭제
                 parentNode.children.remove(ch);
                 return true;
             }
         }
 
-        // 현재노드의 끝이 사실일때 삭제
         if (currentNode.endOfString) {
             delete(currentNode, word, index + 1);
             return false;
@@ -79,7 +73,6 @@ public class Trie {
 
         canThisNodeBeDeleted = delete(currentNode, word, index + 1);
 
-        //현재 노드의 끝이 사실일때 부모노드의 자식 삭제
         if (canThisNodeBeDeleted) {
             parentNode.children.remove(ch);
             return true;
@@ -94,9 +87,11 @@ public class Trie {
         }
     }
 
-    // 접두사로 시작하는 모든 단어를 찾는 메서드
     public List<String> findAllWithPrefix(String searchWords) {
         TrieNode currentNode = root;
+        if(searchWords.isBlank()){
+            return new ArrayList<>();
+        }
         for (int i = 0; i < searchWords.length(); i++) {
             char ch = searchWords.charAt(i);
             TrieNode node = currentNode.children.get(ch);
@@ -110,7 +105,6 @@ public class Trie {
         return allWords;
     }
 
-    // 주어진 노드부터 모든 단어를 찾는 재귀 메서드
     private void findAllWords(TrieNode node, StringBuilder word, List<String> list) {
         if (node.endOfString) {
             list.add(word.toString());
