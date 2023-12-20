@@ -20,6 +20,7 @@ import cow.mocjang.repository.domain.PenRepository;
 import cow.mocjang.service.parser.NoteParserService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -77,6 +78,20 @@ class SearchServiceTest {
     void getAutoCompleteSearchList() {
         List<String> autoCompleteSearchList = searchService.getAutoCompleteSearchList("1");
         assertThat(autoCompleteSearchList).contains("1111","1-1","1번축사");
+    }
+
+    @Test
+    @DisplayName("빈값을 입력하면 빈 리스트를 반환한다.")
+    void enter_a_blank_value_and_return_a_blank_list() {
+        List<String> autoCompleteSearchList = searchService.getAutoCompleteSearchList("");
+        assertThat(autoCompleteSearchList).isEmpty();
+    }
+
+    @Test
+    @DisplayName("없는 값을 입력하면 빈 리스트를 반환한다")
+    void enter_a_wrong_value_and_return_a_blank_list() {
+        List<String> autoCompleteSearchList = searchService.getAutoCompleteSearchList("wrongValue");
+        assertThat(autoCompleteSearchList).isEmpty();
     }
 
     @Test
