@@ -19,7 +19,7 @@ public enum EnMockJang {
     }
 
     public boolean isPatternMatched(String strPattern) {
-        return getCompile().matcher(strPattern).find();
+        return getCompile().matcher(strPattern).matches();
     }
 
     public EnMockJang compareTypeWithPattern(String name) {
