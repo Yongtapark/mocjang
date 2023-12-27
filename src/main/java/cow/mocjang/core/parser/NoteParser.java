@@ -8,6 +8,7 @@ import static cow.mocjang.core.enums.EnNoteForm.NOTE_FORM;
 
 import cow.mocjang.core.enums.EnMockJang;
 import cow.mocjang.core.exceptions.IllegalNoteFormatException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -24,13 +25,13 @@ public class NoteParser {
             if (matcher.find()) {
                 String ids = NOTE_FORM.getIds(matcher);
                 String value = NOTE_FORM.getValue(matcher);
-                boolean isCattle = CATTLE.isPatternMatched(ids);
-                boolean isBarn = BARN.isPatternMatched(ids);
-                boolean isPen = PEN.isPatternMatched(ids);
                 for (EnMockJang enMockJang : values()) {
                     parseAndAddToMap(ids,value,mockJangMap,enMockJang);
                 }
-                if (!isCattle && !isBarn && !isPen) {
+                boolean anyMatch = Arrays.stream(EnMockJang.values())
+                        .anyMatch(enMockJang -> enMockJang.isPatternMatched(ids));
+
+                if (!anyMatch) {
                     throw new IllegalNoteFormatException(ids);
                 }
             }
