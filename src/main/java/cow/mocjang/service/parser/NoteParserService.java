@@ -51,10 +51,10 @@ public class NoteParserService {
         Map<EnMockJang, Map<String, String>> mockJangMap = NoteParser.extractNotesByEntity(content);
         makeBarnNote(mockJangMap, dateTime);
         makePenNote(mockJangMap, dateTime);
-        makeCowNote(mockJangMap, dateTime);
+        makeCattleNote(mockJangMap, dateTime);
     }
 
-    private void makeCowNote(Map<EnMockJang, Map<String, String>> mockJangMap, LocalDateTime dateTime) {
+    private void makeCattleNote(Map<EnMockJang, Map<String, String>> mockJangMap, LocalDateTime dateTime) {
         Map<String, String> cowMap = mockJangMap.get(CATTLE);
         Set<Entry<String, String>> entries = cowMap.entrySet();
         for (Entry<String, String> entry : entries) {

@@ -88,15 +88,15 @@ public class Trie {
     }
 
     public List<String> findAllWithPrefix(String searchWords) {
-        TrieNode currentNode = root;
         if(searchWords.isBlank()){
             return new ArrayList<>();
         }
+        TrieNode currentNode = root;
         for (int i = 0; i < searchWords.length(); i++) {
             char ch = searchWords.charAt(i);
             TrieNode node = currentNode.children.get(ch);
             if (node == null) {
-                return new ArrayList<>(); // 접두사가 없다면 빈 리스트 반환
+                return new ArrayList<>();
             }
             currentNode = node;
         }
