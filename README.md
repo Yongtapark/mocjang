@@ -1,3 +1,5 @@
+![image](https://github.com/Yongtapark/mocjang/assets/91367204/cfd7bff0-c0de-49de-9e6b-c1fa72c5573f)
+
 # mocjang
 - 축사, 축사 칸, 소의 기록을 하나의 메모에서 저장할 수 있다.*
 - 축사, 칸, 소를 입력하면 해당 기록들을 전부 확인할 수 있다. 
