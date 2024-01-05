@@ -47,11 +47,17 @@ public class DailyNoteParserService {
         this.penRepository = penRepository;
     }
 
-    public void save(String content, LocalDateTime dateTime) {
-        Map<EnMockJang, Map<String, String>> mockJangMap = NoteParser.extractNotesByEntity(content);
-        makeBarnNote(mockJangMap, dateTime);
-        makePenNote(mockJangMap, dateTime);
-        makeCattleNote(mockJangMap, dateTime);
+    public void save(String contents, LocalDateTime dateTime) {
+        Map<EnMockJang, Map<String, String>> mockJangMap = NoteParser.sortContents(contents);
+        if(mockJangMap.containsKey(BARN)){
+            makeBarnNote(mockJangMap, dateTime);
+        }
+        if(mockJangMap.containsKey(PEN)){
+            makePenNote(mockJangMap, dateTime);
+        }
+        if(mockJangMap.containsKey(CATTLE)){
+            makeCattleNote(mockJangMap, dateTime);
+        }
     }
 
     private void makeCattleNote(Map<EnMockJang, Map<String, String>> mockJangMap, LocalDateTime dateTime) {
@@ -61,7 +67,7 @@ public class DailyNoteParserService {
             String key = entry.getKey();
             String value = entry.getValue();
             Cattle cattle = cattleRepository.findByName(key).orElseThrow(NoSuchElementException::new);
-            CattleDailyRecord cattleDailyRecord = CattleDailyRecord.makeCattleDailyRecord(cattle, value, dateTime);
+            CattleDailyRecord cattleDailyRecord = CattleDailyRecord.makeDailyRecord(cattle, value, dateTime);
             cattleDailyRecordRepository.save(cattleDailyRecord);
         }
     }
@@ -73,7 +79,7 @@ public class DailyNoteParserService {
             String key = entry.getKey();
             String value = entry.getValue();
             Pen pen = penRepository.findByName(key).orElseThrow(NoSuchElementException::new);
-            PenDailyRecord penDailyRecord = PenDailyRecord.makePenDailyRecord(pen, value, dateTime);
+            PenDailyRecord penDailyRecord = PenDailyRecord.makeDailyRecord(pen, value, dateTime);
             penDailyRecordRepository.save(penDailyRecord);
         }
     }
@@ -85,7 +91,7 @@ public class DailyNoteParserService {
             String key = entry.getKey();
             String value = entry.getValue();
             Barn barn = barnRepository.findByName(key).orElseThrow(NoSuchElementException::new);
-            BarnDailyRecord barnDailyRecord = BarnDailyRecord.makeBarnDailyRecord(barn, value, dateTime);
+            BarnDailyRecord barnDailyRecord = BarnDailyRecord.makeDailyRecord(barn, value, dateTime);
             barnDailyRecordRepository.save(barnDailyRecord);
         }
     }
