@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Slf4j
-@RequiredArgsConstructor
 @Transactional
 class GeneTest {
 

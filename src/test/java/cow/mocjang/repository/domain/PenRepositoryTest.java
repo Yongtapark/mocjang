@@ -22,7 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Slf4j
 @Transactional
-@RequiredArgsConstructor
 class PenRepositoryTest {
     @Autowired
     private PenRepository penRepository;

@@ -22,7 +22,7 @@ public class NoteParser {
         String[] lines = content.split(System.lineSeparator());
         for (String line : lines) {
             Matcher matcher = NOTE_FORM.createPatternMatcher(line);
-            if (matcher.find()) {
+            if (matcher.matches()) {
                 String ids = NOTE_FORM.getIds(matcher);
                 String value = NOTE_FORM.getValue(matcher);
                 for (EnMockJang enMockJang : values()) {
@@ -30,7 +30,6 @@ public class NoteParser {
                 }
                 boolean anyMatch = Arrays.stream(EnMockJang.values())
                         .anyMatch(enMockJang -> enMockJang.isPatternMatched(ids));
-
                 if (!anyMatch) {
                     throw new IllegalNoteFormatException(ids);
                 }

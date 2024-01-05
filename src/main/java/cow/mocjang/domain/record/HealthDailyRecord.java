@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class HeathRecord {
+public class HealthDailyRecord implements DailyRecord{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "health_record_id")
@@ -25,6 +25,20 @@ public class HeathRecord {
     @JoinColumn(name = "cow_id")
     private Cattle cattle;
     private LocalDateTime date;
-    private String Symptom;
     private String note;
+
+    public HealthDailyRecord(Cattle cattle, String note, LocalDateTime date) {
+        this.cattle = cattle;
+        this.date = date;
+        this.note = note;
+    }
+
+    public static HealthDailyRecord makeHealthDailyRecord(Cattle cattle, String note, LocalDateTime date){
+        return new HealthDailyRecord(cattle,note,date);
+    }
+
+    @Override
+    public DailyRecordDTO getDailyNote() {
+        return new DailyRecordDTO(cattle.getName(), note, date);
+    }
 }

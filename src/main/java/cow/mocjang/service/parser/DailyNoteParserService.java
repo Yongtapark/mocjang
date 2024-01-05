@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-public class NoteParserService {
+public class DailyNoteParserService {
     private final BarnDailyRecordRepository barnDailyRecordRepository;
     private final PenDailyRecordRepository penDailyRecordRepository;
     private final CattleDailyRecordRepository cattleDailyRecordRepository;
@@ -36,9 +36,9 @@ public class NoteParserService {
     private final PenRepository penRepository;
     private final CattleRepository cattleRepository;
 
-    public NoteParserService(CattleDailyRecordRepository cattleDailyRecordRepository, CattleRepository cattleRepository,
-                             BarnDailyRecordRepository barnDailyRecordRepository, BarnRepository barnRepository,
-                             PenDailyRecordRepository penDailyRecordRepository, PenRepository penRepository) {
+    public DailyNoteParserService(CattleDailyRecordRepository cattleDailyRecordRepository, CattleRepository cattleRepository,
+                                  BarnDailyRecordRepository barnDailyRecordRepository, BarnRepository barnRepository,
+                                  PenDailyRecordRepository penDailyRecordRepository, PenRepository penRepository) {
         this.cattleDailyRecordRepository = cattleDailyRecordRepository;
         this.cattleRepository = cattleRepository;
         this.barnDailyRecordRepository = barnDailyRecordRepository;
@@ -61,7 +61,7 @@ public class NoteParserService {
             String key = entry.getKey();
             String value = entry.getValue();
             Cattle cattle = cattleRepository.findByName(key).orElseThrow(NoSuchElementException::new);
-            CattleDailyRecord cattleDailyRecord = CattleDailyRecord.makeCowDailyRecord(cattle, value, dateTime);
+            CattleDailyRecord cattleDailyRecord = CattleDailyRecord.makeCattleDailyRecord(cattle, value, dateTime);
             cattleDailyRecordRepository.save(cattleDailyRecord);
         }
     }

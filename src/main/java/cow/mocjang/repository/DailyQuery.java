@@ -31,9 +31,6 @@ public class DailyQuery {
         return trie;
     }
 
-    //일단은 데일리 기록들만 전부 불러오는것을 목표로
-
-    //이름 가져오기
     public List<String> getBarnNames() {
         return query.select(barn.name).from(barn).fetch();
     }

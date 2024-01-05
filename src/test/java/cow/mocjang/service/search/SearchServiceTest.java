@@ -17,7 +17,7 @@ import cow.mocjang.repository.domain.BarnRepository;
 import cow.mocjang.repository.domain.CattleRepository;
 import cow.mocjang.repository.domain.FarmRepository;
 import cow.mocjang.repository.domain.PenRepository;
-import cow.mocjang.service.parser.NoteParserService;
+import cow.mocjang.service.parser.DailyNoteParserService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,7 +44,7 @@ class SearchServiceTest {
     @Autowired
     CattleRepository cattleRepository;
     @Autowired
-    NoteParserService noteParserService;
+    DailyNoteParserService dailyNoteParserService;
     @Autowired
     BarnDailyRecordRepository barnDailyRecordRepository;
     @Autowired
@@ -54,29 +54,36 @@ class SearchServiceTest {
     @Autowired
     SearchService searchService;
 
+    static String CATTLE_RECORD = "[[1111]] 밥을 먹다.";
+    static String BARN_RECORD = "[[1번축사]] 소 판매 예정.";
+    static String PEN_RECORD = "[[1-1]] 1122가 밥을 안먹음";
+    static String BARN_NAME = "1번축사";
+    static String PEN_NAME = "1-1";
+    static String CATTLE_NAME = "1111";
+
     @BeforeEach
     void save() {
         Address address = new Address();
         Farm farm = Farm.makeFarm("성실", address, "010");
         farmRepository.save(farm);
-        Barn barn = Barn.makeBarn(farm, "1번축사");
+        Barn barn = Barn.makeBarn(farm, BARN_NAME);
         barnRepository.save(barn);
-        Pen pen = Pen.makePen(barn, "1-1");
+        Pen pen = Pen.makePen(barn, PEN_NAME);
         penRepository.save(pen);
-        Cattle cattle = Cattle.makeCattle(pen, "1111", EnCattleType.COW, null, null);
+        Cattle cattle = Cattle.makeCattle(pen, CATTLE_NAME, EnCattleType.COW, null, null);
         cattleRepository.save(cattle);
 
-        String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()
-                + "[[1-1]] 1122가 밥을 안먹음";
+        String testInput = CATTLE_RECORD + System.lineSeparator() + BARN_RECORD + System.lineSeparator()
+                + PEN_RECORD;
         LocalDateTime now = LocalDateTime.now();
-        noteParserService.save(testInput, now);
+        dailyNoteParserService.save(testInput, now);
     }
 
     @Test
-    @DisplayName("일부검색어를 입력하면 자동완성 리스트를 반환한다.")
+    @DisplayName("일부 검색어를 입력하면 자동완성 리스트를 반환한다.")
     void getAutoCompleteSearchList() {
         List<String> autoCompleteSearchList = searchService.getAutoCompleteSearchList("1");
-        assertThat(autoCompleteSearchList).contains("1111","1-1","1번축사");
+        assertThat(autoCompleteSearchList).containsExactly("1111","1번축사","1-1");
     }
 
     @Test

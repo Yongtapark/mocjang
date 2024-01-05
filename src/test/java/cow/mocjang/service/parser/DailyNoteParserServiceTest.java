@@ -1,4 +1,4 @@
-package cow.mocjang.service;
+package cow.mocjang.service.parser;
 
 import cow.mocjang.core.enums.cattles.EnCattleType;
 import cow.mocjang.domain.cattles.Cattle;
@@ -16,7 +16,7 @@ import cow.mocjang.repository.domain.BarnRepository;
 import cow.mocjang.repository.domain.CattleRepository;
 import cow.mocjang.repository.domain.FarmRepository;
 import cow.mocjang.repository.domain.PenRepository;
-import cow.mocjang.service.parser.NoteParserService;
+import cow.mocjang.service.parser.DailyNoteParserService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +31,7 @@ import org.springframework.test.annotation.Rollback;
 @SpringBootTest
 @Slf4j
 @Transactional
-@Rollback(value = false)
-class NoteParserServiceTest {
+class DailyNoteParserServiceTest {
     @Autowired
     private BarnRepository barnRepository;
     @Autowired
@@ -42,7 +41,7 @@ class NoteParserServiceTest {
     @Autowired
     CattleRepository cattleRepository;
     @Autowired
-    NoteParserService noteParserService;
+    DailyNoteParserService dailyNoteParserService;
     @Autowired
     BarnDailyRecordRepository barnDailyRecordRepository;
     @Autowired
@@ -68,23 +67,35 @@ class NoteParserServiceTest {
     @DisplayName("name의 패턴을 구분하여 축사, 칸, 소들 중 선택하여 조회한다.")
     void test() {
         //given
-        String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()
-                + "[[1-1]] 1122가 밥을 안먹음";
+        String CATTLE_RECORD = "[[1111]] 밥을 먹다.";
+        String BARN_RECORD = "[[1번축사]] 소 판매 예정.";
+        String PEN_RECORD = "[[1-1]] 1122가 밥을 안먹음";
+
+        String testInput = CATTLE_RECORD + System.lineSeparator() + BARN_RECORD + System.lineSeparator()
+                + PEN_RECORD;
         LocalDateTime now = LocalDateTime.now();
-        noteParserService.save(testInput, now);
+        dailyNoteParserService.save(testInput, now);
 
         //when
-        BarnDailyRecord barnDailyRecord = barnDailyRecordRepository.findByBarn_Name("1번축사").get(0);
-        PenDailyRecord penDailyRecord = penDailyRecordRepository.findByPen_Name("1-1").get(0);
-        CattleDailyRecord cattleDailyRecord = cattleDailyRecordRepository.findByCattle_Name("1111").get(0);
+        String BARN_NAME = "1번축사";
+        String PEN_NAME = "1-1";
+        String CATTLE_NAME = "1111";
+
+        BarnDailyRecord barnDailyRecord = barnDailyRecordRepository.findByBarn_Name(BARN_NAME).get(0);
+        PenDailyRecord penDailyRecord = penDailyRecordRepository.findByPen_Name(PEN_NAME).get(0);
+        CattleDailyRecord cattleDailyRecord = cattleDailyRecordRepository.findByCattle_Name(CATTLE_NAME).get(0);
 
         //then
+        String BARN_DB_RECORD = "소 판매 예정.";
+        String PEN_DB_RECORD = "1122가 밥을 안먹음";
+        String CATTLE_DB_RECORD = "밥을 먹다.";
+
         String penNote = penDailyRecord.getNote();
         String barnNote = barnDailyRecord.getNote();
         String cattleNote = cattleDailyRecord.getDailyNote().getNote();
-        Assertions.assertThat(barnNote).isEqualTo("소 판매 예정.");
-        Assertions.assertThat(penNote).isEqualTo("1122가 밥을 안먹음");
-        Assertions.assertThat(cattleNote).isEqualTo("밥을 먹다.");
+        Assertions.assertThat(barnNote).isEqualTo(BARN_DB_RECORD);
+        Assertions.assertThat(penNote).isEqualTo(PEN_DB_RECORD);
+        Assertions.assertThat(cattleNote).isEqualTo(CATTLE_DB_RECORD);
 
     }
 }

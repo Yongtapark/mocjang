@@ -32,7 +32,7 @@ public class CattleDailyRecord implements DailyRecord {
         this.date = date;
     }
 
-    public static CattleDailyRecord makeCowDailyRecord(Cattle cattle, String note, LocalDateTime date) {
+    public static CattleDailyRecord makeCattleDailyRecord(Cattle cattle, String note, LocalDateTime date) {
         return new CattleDailyRecord(cattle, note, date);
     }
 

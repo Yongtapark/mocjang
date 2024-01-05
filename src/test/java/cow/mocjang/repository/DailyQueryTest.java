@@ -14,7 +14,7 @@ import cow.mocjang.repository.domain.BarnRepository;
 import cow.mocjang.repository.domain.CattleRepository;
 import cow.mocjang.repository.domain.FarmRepository;
 import cow.mocjang.repository.domain.PenRepository;
-import cow.mocjang.service.parser.NoteParserService;
+import cow.mocjang.service.parser.DailyNoteParserService;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,7 +41,7 @@ class DailyQueryTest {
     @Autowired
     CattleRepository cattleRepository;
     @Autowired
-    NoteParserService noteParserService;
+    DailyNoteParserService dailyNoteParserService;
     @Autowired
     BarnDailyRecordRepository barnDailyRecordRepository;
     @Autowired
@@ -64,7 +64,7 @@ class DailyQueryTest {
         String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()
                 + "[[1-1]] 1122가 밥을 안먹음";
         LocalDateTime now = LocalDateTime.now();
-        noteParserService.save(testInput, now);
+        dailyNoteParserService.save(testInput, now);
     }
 
     @Test
