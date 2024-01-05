@@ -1,5 +1,7 @@
 package cow.mocjang.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import cow.mocjang.core.enums.cattles.EnCattleType;
 import cow.mocjang.core.search.trie.Trie;
 import cow.mocjang.domain.cattles.Cattle;
@@ -7,6 +9,7 @@ import cow.mocjang.domain.farm.Address;
 import cow.mocjang.domain.farm.Barn;
 import cow.mocjang.domain.farm.Farm;
 import cow.mocjang.domain.farm.Pen;
+import cow.mocjang.domain.record.DailyRecordDTO;
 import cow.mocjang.repository.dailyrecord.BarnDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.CattleDailyRecordRepository;
 import cow.mocjang.repository.dailyrecord.PenDailyRecordRepository;
@@ -61,10 +64,14 @@ class DailyQueryTest {
         Cattle cattle = Cattle.makeCattle(pen, "1111", EnCattleType.COW, null, null);
         cattleRepository.save(cattle);
 
-        String testInput = "[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()
+        String testInput ="[[1111]] 밥을 먹다." + System.lineSeparator() + "[[1번축사]] 소 판매 예정." + System.lineSeparator()
                 + "[[1-1]] 1122가 밥을 안먹음";
         LocalDateTime now = LocalDateTime.now();
         dailyNoteParserService.save(testInput, now);
+
+        String testInput2 ="[[1111]] 밥을 안먹다.";
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+        dailyNoteParserService.save(testInput2, yesterday);
     }
 
     @Test
@@ -72,15 +79,17 @@ class DailyQueryTest {
     void getNames() {
         Trie names = dailyQuery.getNames();
         List<String> allWithPrefix = names.findAllWithPrefix("1");
-        Assertions.assertThat(allWithPrefix).contains("1111", "1번축사", "1-1");
+        assertThat(allWithPrefix).contains("1111", "1번축사", "1-1");
 
         List<String> penWithPrefix = names.findAllWithPrefix("11");
-        Assertions.assertThat(penWithPrefix).contains("1111");
+        assertThat(penWithPrefix).contains("1111");
     }
 
     @Test
-    @DisplayName("이름으로 검색했을때, 자동으로 축사인지, 칸인지, 소인지 검증")
+    @DisplayName("가축 이름 조회시 해당 기록들 DTO로 반환")
     void name() {
-
+        List<DailyRecordDTO> cattleDailyRecord = dailyQuery.getCattleDailyRecord("1111");
+        List<String> cattleDailyRecords = cattleDailyRecord.stream().map(DailyRecordDTO::getNote).toList();
+        assertThat(cattleDailyRecords).contains("밥을 먹다.","밥을 안먹다.");
     }
 }

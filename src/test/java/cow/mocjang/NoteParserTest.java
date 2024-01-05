@@ -30,7 +30,7 @@ class NoteParserTest {
                 "[[s111,2222]] 밥을 먹다." + System.lineSeparator() + "[[1번축사,2번축사]] 소 판매 예정." + System.lineSeparator()
                         + "[[1-2,2-2,6-6]] 1122가 밥을 안먹음";
 
-        Assertions.assertThatThrownBy(() -> NoteParser.extractNotesByEntity(testInput)).isInstanceOf(
+        Assertions.assertThatThrownBy(() -> NoteParser.sortContents(testInput)).isInstanceOf(
                 IllegalNoteFormatException.class);
 
     }
@@ -47,7 +47,7 @@ class NoteParserTest {
         String expectedPanNote = "소 판매 예정.";
 
         //when
-        Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.extractNotesByEntity(testInput);
+        Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.sortContents(testInput);
 
         //then
         String actualCowNote1 = enMockJangMapMap.get(CATTLE).get("1111");
@@ -80,7 +80,7 @@ class NoteParserTest {
         String expectedPanNote = "소 판매 예정.";
 
         //when
-        Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.extractNotesByEntity(testInput);
+        Map<EnMockJang, Map<String, String>> enMockJangMapMap = NoteParser.sortContents(testInput);
 
         //then
         String actualCowNote = enMockJangMapMap.get(CATTLE).get("1111");

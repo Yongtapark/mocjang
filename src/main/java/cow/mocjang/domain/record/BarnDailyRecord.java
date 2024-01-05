@@ -34,7 +34,7 @@ public class BarnDailyRecord implements DailyRecord {
         this.date = date;
     }
 
-    public static BarnDailyRecord makeBarnDailyRecord(Barn barn, String note, LocalDateTime date) {
+    public static BarnDailyRecord makeDailyRecord(Barn barn, String note, LocalDateTime date) {
         return new BarnDailyRecord(barn, note, date);
     }
 

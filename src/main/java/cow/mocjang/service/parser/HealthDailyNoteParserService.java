@@ -29,7 +29,7 @@ public class HealthDailyNoteParserService {
 
 
     public void save(String content, LocalDateTime dateTime) {
-        Map<EnMockJang, Map<String, String>> mockJangMap = NoteParser.extractNotesByEntity(content);
+        Map<EnMockJang, Map<String, String>> mockJangMap = NoteParser.sortContents(content);
         makeHealthDailyNote(mockJangMap, dateTime);
     }
 

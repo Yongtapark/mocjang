@@ -34,7 +34,7 @@ public class PenDailyRecord implements DailyRecord {
         this.date = date;
     }
 
-    public static PenDailyRecord makePenDailyRecord(Pen pen, String note, LocalDateTime date) {
+    public static PenDailyRecord makeDailyRecord(Pen pen, String note, LocalDateTime date) {
         return new PenDailyRecord(pen, note, date);
     }
 

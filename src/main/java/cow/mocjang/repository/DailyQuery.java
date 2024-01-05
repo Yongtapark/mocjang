@@ -3,9 +3,14 @@ package cow.mocjang.repository;
 import static cow.mocjang.domain.cattles.QCattle.cattle;
 import static cow.mocjang.domain.farm.QBarn.barn;
 import static cow.mocjang.domain.farm.QPen.pen;
+import static cow.mocjang.domain.record.QBarnDailyRecord.barnDailyRecord;
+import static cow.mocjang.domain.record.QCattleDailyRecord.cattleDailyRecord;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import cow.mocjang.core.search.trie.Trie;
+import cow.mocjang.domain.record.DailyRecordDTO;
+import cow.mocjang.domain.record.QBarnDailyRecord;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -41,5 +46,17 @@ public class DailyQuery {
 
     public List<String> getCattleNames() {
         return query.select(cattle.name).from(cattle).fetch();
+    }
+
+    public List<DailyRecordDTO> getCattleDailyRecord(String name) {
+        return query.select
+                (Projections.constructor(DailyRecordDTO.class, cattleDailyRecord.cattle.name, cattleDailyRecord.note, cattleDailyRecord.date))
+                .from(cattleDailyRecord).where(cattleDailyRecord.cattle.name.eq(name)).fetch();
+    }
+
+    public List<DailyRecordDTO> getBarnDailyRecord(String name) {
+        return query.select
+                        (Projections.constructor(DailyRecordDTO.class, barnDailyRecord.barn.name, barnDailyRecord.note, barnDailyRecord.date))
+                .from(barnDailyRecord).where(barnDailyRecord.barn.name.eq(name)).fetch();
     }
 }

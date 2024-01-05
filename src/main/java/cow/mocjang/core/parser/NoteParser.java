@@ -1,8 +1,5 @@
 package cow.mocjang.core.parser;
 
-import static cow.mocjang.core.enums.EnMockJang.BARN;
-import static cow.mocjang.core.enums.EnMockJang.CATTLE;
-import static cow.mocjang.core.enums.EnMockJang.PEN;
 import static cow.mocjang.core.enums.EnMockJang.values;
 import static cow.mocjang.core.enums.EnNoteForm.NOTE_FORM;
 
@@ -17,9 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NoteParser {
 
-    public static Map<EnMockJang, Map<String, String>> extractNotesByEntity(String content) {
+    public static Map<EnMockJang, Map<String, String>> sortContents(String contents) {
         Map<EnMockJang, Map<String, String>> mockJangMap = new HashMap<>();
-        String[] lines = content.split(System.lineSeparator());
+        String[] lines = contents.split(System.lineSeparator());
         for (String line : lines) {
             Matcher matcher = NOTE_FORM.createPatternMatcher(line);
             if (matcher.matches()) {
