@@ -1,6 +1,5 @@
 package cow.mocjang.domain.farm;
 
-import cow.mocjang.domain.enums.Grade;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -25,7 +24,6 @@ public class Member {
     @JoinColumn(name = "farm_id")
     private Farm farm;
     private String name;
-    private Grade grade;
     private String tel;
 
     @Embedded
